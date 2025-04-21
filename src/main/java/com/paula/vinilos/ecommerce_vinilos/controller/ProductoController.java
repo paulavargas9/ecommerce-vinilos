@@ -25,26 +25,26 @@ public class ProductoController {
      @Autowired
     private ProductoRepository productoRepository;
 
-    // Obtener todos los productos
+    // obtener todos los productos
     @GetMapping
     public List<Producto> getAllProductos() {
         return productoRepository.findAll();
     }
 
-    //  Obtener un producto por ID
+    //  obtener un producto por ID
         @GetMapping("/{id}")
         public Producto getProductoById(@PathVariable Long id) {
             return productoRepository.findById(id)
                     .orElseThrow(() -> new RuntimeException("Producto no encontrado con id: " + id));
             }
 
-    // Crear un nuevo producto
+    // crear un nuevo producto
         @PostMapping
         public Producto crearProducto(@RequestBody Producto producto) {
             return productoRepository.save(producto);
         }
 
-    // Actualizar un producto existente
+    // actualizar un producto existente
         @PutMapping("/{id}")
         public Producto actualizarProducto(@PathVariable Long id, @RequestBody Producto productoActualizado) {
             return productoRepository.findById(id).map(producto -> {
@@ -57,7 +57,7 @@ public class ProductoController {
             }).orElseThrow(() -> new RuntimeException("Producto no encontrado con id: " + id));
         }
 
-    //  Eliminar un producto por ID
+    //  eliminar un producto por id
         @DeleteMapping("/{id}")
         public void eliminarProducto(@PathVariable Long id) {
             productoRepository.deleteById(id);

@@ -25,13 +25,13 @@ public class CategoriaController {
     @Autowired
     private CategoriaRepository categoriaRepository;
 
-    // Obtener todas las categorías
+    // obtener todas las categorías
     @GetMapping
     public List<Categoria> getAllCategorias() {
         return categoriaRepository.findAll();
     }
 
-    // Obtener una categoría por ID
+    // obtener una categoría por id
     @GetMapping("/{id}")
     public ResponseEntity<Categoria> getCategoriaById(@PathVariable Long id) {
         return categoriaRepository.findById(id)
@@ -39,13 +39,13 @@ public class CategoriaController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // Crear una nueva categoría
+    // crear una nueva categoría
     @PostMapping
     public Categoria crearCategoria(@RequestBody Categoria categoria) {
         return categoriaRepository.save(categoria);
     }
 
-    // Actualizar una categoría existente
+    // actualizar una categoría existente
     @PutMapping("/{id}")
     public ResponseEntity<Categoria> actualizarCategoria(@PathVariable Long id, @RequestBody Categoria nuevaCategoria) {
         return categoriaRepository.findById(id)
@@ -57,7 +57,7 @@ public class CategoriaController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // Eliminar una categoría
+    // eliminar una categoria por id 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminarCategoria(@PathVariable Long id) {
         if (categoriaRepository.existsById(id)) {

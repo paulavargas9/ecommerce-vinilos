@@ -21,7 +21,7 @@ public class EcommerceVinilosApplication {
 	CommandLineRunner initData(CategoriaRepository categoriaRepository, ProductoRepository productoRepository) {
 		return args -> {
 	
-			// Verificar si ya existe alguna categoría
+			// verificar si ya existe alguna categoría
 			if (categoriaRepository.count() == 0) {
 				Categoria rock = new Categoria();
 				rock.setNombre("Rock");
@@ -36,9 +36,9 @@ public class EcommerceVinilosApplication {
 				producto1.setCategoria(rock);
 				productoRepository.save(producto1);
 	
-				System.out.println("🎵 Datos de prueba insertados con éxito.");
+				System.out.println(" Datos de prueba insertados con éxito.");
 			} else {
-				System.out.println("🔁 Datos ya existentes, no se insertó nada.");
+				System.out.println(" Datos ya existentes, no se insertó nada.");
 			}
 		};
 	}
