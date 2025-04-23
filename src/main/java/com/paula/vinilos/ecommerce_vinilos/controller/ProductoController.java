@@ -3,6 +3,7 @@ package com.paula.vinilos.ecommerce_vinilos.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.paula.vinilos.ecommerce_vinilos.model.Producto;
 import com.paula.vinilos.ecommerce_vinilos.repository.ProductoRepository;
+
+import jakarta.validation.Valid;
 
 @CrossOrigin(origins = "*") // esto permite llamadas desde cualquier origen
 @RestController
@@ -39,9 +42,10 @@ public class ProductoController {
             }
 
     // crear un nuevo producto
-        @PostMapping
-        public Producto crearProducto(@RequestBody Producto producto) {
-            return productoRepository.save(producto);
+    @PostMapping
+        public ResponseEntity<Producto> crearProducto(@Valid @RequestBody Producto producto) {
+            Producto nuevoProducto = productoRepository.save(producto);
+            return ResponseEntity.ok(nuevoProducto);
         }
 
     // actualizar un producto existente

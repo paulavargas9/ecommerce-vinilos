@@ -1,5 +1,6 @@
 package com.paula.vinilos.ecommerce_vinilos.model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -12,29 +13,35 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 @Entity
 @Table(name = "pedidos")
-public class Pedido {
+public class Pedido implements Serializable{
 
-  @Id
+   @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull(message = "La fecha no puede ser nula")
     private LocalDateTime fecha;
 
+    @NotNull(message = "El total no puede ser nulo")
+    @Positive(message = "El total debe ser un valor positivo")
     private Double total;
 
-    // Relación con Usuario
     @ManyToOne
     @JoinColumn(name = "usuario_id")
+    @NotNull(message = "Debe especificarse un usuario para el pedido")
     private Usuario usuario;
 
-    // Relación con DetallePedido (uno a muchos)
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
     private List<DetallePedido> detalles;
 
-    // Getters y Setters
+   
+    public Pedido() {}
+    
     public Long getId() {
         return id;
     }

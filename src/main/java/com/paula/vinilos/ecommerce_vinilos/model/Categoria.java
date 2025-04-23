@@ -1,8 +1,11 @@
 package com.paula.vinilos.ecommerce_vinilos.model;
 
+import java.io.Serializable;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 
@@ -10,19 +13,20 @@ import jakarta.persistence.GenerationType;
 
 @Entity
 @Table(name = "categorias")
-public class Categoria {
+public class Categoria implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "El nombre de la categoría no puede estar vacío")
     private String nombre;
+    @NotBlank(message = "La descripción de la categoría no puede estar vacía")
     private String descripcion;
 
-    // Constructor vacío (obligatorio para JPA)
     public Categoria() {}
 
-    // Getters y Setters
+    
     public Long getId() {
         return id;
     }
