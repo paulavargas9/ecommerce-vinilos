@@ -32,9 +32,18 @@ public class Usuario implements Serializable {
     @NotBlank(message = "La contraseña no puede estar vacía")
     @Size(min = 6, message = "La contraseña debe tener al menos 6 caracteres")
     private String password;
+    @NotBlank(message = "El rol no puede estar vacío")
+    @Column(nullable = false)
+    private String rol;
 
    
     public Usuario() {}
+    public Usuario(String nombre, String email, String rol) {
+        this.nombre = nombre;
+        this.email = email;
+        this.rol = rol;
+    }
+    
 
     public Long getId() {
         return id;

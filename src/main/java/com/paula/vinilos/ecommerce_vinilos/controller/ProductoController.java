@@ -1,70 +1,73 @@
 package com.paula.vinilos.ecommerce_vinilos.controller;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
+import com.paula.vinilos.ecommerce_vinilos.dto.ProductoRequestDTO;
+import com.paula.vinilos.ecommerce_vinilos.dto.ProductoResponseDTO;
+import com.paula.vinilos.ecommerce_vinilos.mapper.ProductoMapper;
 import com.paula.vinilos.ecommerce_vinilos.model.Producto;
 import com.paula.vinilos.ecommerce_vinilos.repository.ProductoRepository;
 
-import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = "*") // esto permite llamadas desde cualquier origen
+import jakarta.validation.Valid;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RestController
 @RequestMapping("/api/productos")
-
+@CrossOrigin(origins = "*")
 public class ProductoController {
 
-     @Autowired
+    @Autowired
     private ProductoRepository productoRepository;
 
-    // obtener todos los productos
+    @Autowired
+    private ProductoMapper productoMapper;
+
     @GetMapping
-    public List<Producto> getAllProductos() {
-        return productoRepository.findAll();
+    public List<ProductoResponseDTO> getAllProductos() {
+        return productoRepository.findAll()
+                .stream()
+                .map(productoMapper::toDto)
+                .collect(Collectors.toList());
     }
 
-    //  obtener un producto por ID
-        @GetMapping("/{id}")
-        public Producto getProductoById(@PathVariable Long id) {
-            return productoRepository.findById(id)
-                    .orElseThrow(() -> new RuntimeException("Producto no encontrado con id: " + id));
-            }
+    
+    @GetMapping("/{id}")
+    public ResponseEntity<ProductoResponseDTO> getProductoById(@PathVariable Long id) {
+        Producto producto = productoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado con id: " + id));
+        return ResponseEntity.ok(productoMapper.toDto(producto));
+    }
 
-    // crear un nuevo producto
+    
     @PostMapping
-        public ResponseEntity<Producto> crearProducto(@Valid @RequestBody Producto producto) {
-            Producto nuevoProducto = productoRepository.save(producto);
-            return ResponseEntity.ok(nuevoProducto);
-        }
+    public ResponseEntity<ProductoResponseDTO> crearProducto(@Valid @RequestBody ProductoRequestDTO productoDTO) {
+        Producto producto = productoMapper.toEntity(productoDTO);
+        Producto nuevoProducto = productoRepository.save(producto);
+        return ResponseEntity.ok(productoMapper.toDto(nuevoProducto));
+    }
 
-    // actualizar un producto existente
-        @PutMapping("/{id}")
-        public Producto actualizarProducto(@PathVariable Long id, @RequestBody Producto productoActualizado) {
-            return productoRepository.findById(id).map(producto -> {
-                producto.setNombre(productoActualizado.getNombre());
-                producto.setDescripcion(productoActualizado.getDescripcion());
-                producto.setPrecio(productoActualizado.getPrecio());
-                producto.setStock(productoActualizado.getStock());
-                producto.setCategoria(productoActualizado.getCategoria());
-                return productoRepository.save(producto);
-            }).orElseThrow(() -> new RuntimeException("Producto no encontrado con id: " + id));
-        }
+    
+    @PutMapping("/{id}")
+    public ResponseEntity<ProductoResponseDTO> actualizarProducto(@PathVariable Long id, @Valid @RequestBody ProductoRequestDTO productoDTO) {
+        Producto productoExistente = productoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado con id: " + id));
 
-    //  eliminar un producto por id
-        @DeleteMapping("/{id}")
-        public void eliminarProducto(@PathVariable Long id) {
+        productoMapper.updateEntityFromDto(productoDTO, productoExistente);
+        Producto productoActualizado = productoRepository.save(productoExistente);
+
+        return ResponseEntity.ok(productoMapper.toDto(productoActualizado));
+    }
+
+    
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> eliminarProducto(@PathVariable Long id) {
+        if (productoRepository.existsById(id)) {
             productoRepository.deleteById(id);
+            return ResponseEntity.noContent().build();
         }
-
+        return ResponseEntity.notFound().build();
+    }
 }

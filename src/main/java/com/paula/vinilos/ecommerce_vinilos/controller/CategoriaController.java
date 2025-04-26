@@ -1,21 +1,18 @@
 package com.paula.vinilos.ecommerce_vinilos.controller;
 
-import java.util.List;
+import com.paula.vinilos.ecommerce_vinilos.dto.CategoriaRequestDTO;
+import com.paula.vinilos.ecommerce_vinilos.dto.CategoriaResponseDTO;
+import com.paula.vinilos.ecommerce_vinilos.mapper.CategoriaMapper;
+import com.paula.vinilos.ecommerce_vinilos.model.Categoria;
+import com.paula.vinilos.ecommerce_vinilos.repository.CategoriaRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.paula.vinilos.ecommerce_vinilos.model.Categoria;
-import com.paula.vinilos.ecommerce_vinilos.repository.CategoriaRepository;
+import jakarta.validation.Valid;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -25,39 +22,47 @@ public class CategoriaController {
     @Autowired
     private CategoriaRepository categoriaRepository;
 
-    // obtener todas las categorías
+    @Autowired
+    private CategoriaMapper categoriaMapper;
+
+    // Listar todas las categorías
     @GetMapping
-    public List<Categoria> getAllCategorias() {
-        return categoriaRepository.findAll();
+    public List<CategoriaResponseDTO> getAllCategorias() {
+        return categoriaRepository.findAll()
+                .stream()
+                .map(categoriaMapper::toDto)
+                .collect(Collectors.toList());
     }
 
-    // obtener una categoría por id
+    // Obtener una categoría por ID
     @GetMapping("/{id}")
-    public ResponseEntity<Categoria> getCategoriaById(@PathVariable Long id) {
-        return categoriaRepository.findById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<CategoriaResponseDTO> getCategoriaById(@PathVariable Long id) {
+        Categoria categoria = categoriaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Categoría no encontrada con id: " + id));
+        return ResponseEntity.ok(categoriaMapper.toDto(categoria));
     }
 
-    // crear una nueva categoría
+    //  Crear una nueva categoría
     @PostMapping
-    public Categoria crearCategoria(@RequestBody Categoria categoria) {
-        return categoriaRepository.save(categoria);
+    public ResponseEntity<CategoriaResponseDTO> crearCategoria(@Valid @RequestBody CategoriaRequestDTO categoriaDTO) {
+        Categoria categoria = categoriaMapper.toEntity(categoriaDTO);
+        Categoria nuevaCategoria = categoriaRepository.save(categoria);
+        return ResponseEntity.ok(categoriaMapper.toDto(nuevaCategoria));
     }
 
-    // actualizar una categoría existente
+    //  Actualizar una categoría existente
     @PutMapping("/{id}")
-    public ResponseEntity<Categoria> actualizarCategoria(@PathVariable Long id, @RequestBody Categoria nuevaCategoria) {
-        return categoriaRepository.findById(id)
-                .map(categoriaExistente -> {
-                    categoriaExistente.setNombre(nuevaCategoria.getNombre());
-                    categoriaExistente.setDescripcion(nuevaCategoria.getDescripcion());
-                    return ResponseEntity.ok(categoriaRepository.save(categoriaExistente));
-                })
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<CategoriaResponseDTO> actualizarCategoria(@PathVariable Long id, @Valid @RequestBody CategoriaRequestDTO categoriaDTO) {
+        Categoria categoriaExistente = categoriaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Categoría no encontrada con id: " + id));
+
+        categoriaMapper.updateEntityFromDto(categoriaDTO, categoriaExistente);
+        Categoria categoriaActualizada = categoriaRepository.save(categoriaExistente);
+
+        return ResponseEntity.ok(categoriaMapper.toDto(categoriaActualizada));
     }
 
-    // eliminar una categoria por id 
+    // Eliminar una categoría
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminarCategoria(@PathVariable Long id) {
         if (categoriaRepository.existsById(id)) {

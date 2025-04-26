@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    // Manejar errores de validaciones (NotBlank, Size, etc.)
+    // Manejar errores de validaciones 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, Object>> handleValidationExceptions(MethodArgumentNotValidException ex) {
         List<String> errors = ex.getBindingResult()
@@ -27,7 +27,7 @@ public class GlobalExceptionHandler {
         Map<String, Object> body = new HashMap<>();
         body.put("timestamp", LocalDateTime.now());
         body.put("status", HttpStatus.BAD_REQUEST.value());
-        body.put("errors", errors);  // Limpiamos el trace y dejamos solo lo necesario
+        body.put("errors", errors);  
 
         return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
     }
