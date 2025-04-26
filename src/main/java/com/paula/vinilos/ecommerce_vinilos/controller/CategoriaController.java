@@ -2,6 +2,7 @@ package com.paula.vinilos.ecommerce_vinilos.controller;
 
 import com.paula.vinilos.ecommerce_vinilos.dto.CategoriaRequestDTO;
 import com.paula.vinilos.ecommerce_vinilos.dto.CategoriaResponseDTO;
+import com.paula.vinilos.ecommerce_vinilos.exception.CategoriaNotFoundException;
 import com.paula.vinilos.ecommerce_vinilos.mapper.CategoriaMapper;
 import com.paula.vinilos.ecommerce_vinilos.model.Categoria;
 import com.paula.vinilos.ecommerce_vinilos.repository.CategoriaRepository;
@@ -54,7 +55,8 @@ public class CategoriaController {
     @PutMapping("/{id}")
     public ResponseEntity<CategoriaResponseDTO> actualizarCategoria(@PathVariable Long id, @Valid @RequestBody CategoriaRequestDTO categoriaDTO) {
         Categoria categoriaExistente = categoriaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Categoría no encontrada con id: " + id));
+                .orElseThrow(() -> new CategoriaNotFoundException(id));
+
 
         categoriaMapper.updateEntityFromDto(categoriaDTO, categoriaExistente);
         Categoria categoriaActualizada = categoriaRepository.save(categoriaExistente);

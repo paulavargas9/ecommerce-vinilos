@@ -2,6 +2,7 @@ package com.paula.vinilos.ecommerce_vinilos.controller;
 
 import com.paula.vinilos.ecommerce_vinilos.dto.UsuarioRequestDTO;
 import com.paula.vinilos.ecommerce_vinilos.dto.UsuarioResponseDTO;
+import com.paula.vinilos.ecommerce_vinilos.exception.UsuarioNotFoundException;
 import com.paula.vinilos.ecommerce_vinilos.mapper.UsuarioMapper;
 import com.paula.vinilos.ecommerce_vinilos.model.Usuario;
 import com.paula.vinilos.ecommerce_vinilos.repository.UsuarioRepository;
@@ -25,7 +26,7 @@ public class UsuarioController {
     @Autowired
     private UsuarioMapper usuarioMapper;
 
-    // 🟢 Obtener todos los usuarios (ResponseDTO)
+    
     @GetMapping
     public List<UsuarioResponseDTO> getAllUsuarios() {
         return usuarioRepository.findAll()
@@ -34,7 +35,7 @@ public class UsuarioController {
                 .collect(Collectors.toList());
     }
 
-    // 🟢 Obtener un usuario por ID (ResponseDTO)
+    
     @GetMapping("/{id}")
     public ResponseEntity<UsuarioResponseDTO> getUsuarioById(@PathVariable Long id) {
         Usuario usuario = usuarioRepository.findById(id)
@@ -42,7 +43,7 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioMapper.toDto(usuario));
     }
 
-    // 🟢 Crear un nuevo usuario (recibe RequestDTO, devuelve ResponseDTO)
+  
     @PostMapping
     public ResponseEntity<UsuarioResponseDTO> crearUsuario(@Valid @RequestBody UsuarioRequestDTO usuarioDTO) {
         Usuario usuario = usuarioMapper.toEntity(usuarioDTO);
@@ -50,11 +51,12 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioMapper.toDto(nuevoUsuario));
     }
 
-    // 🟢 Actualizar un usuario existente (recibe RequestDTO, devuelve ResponseDTO)
+    
     @PutMapping("/{id}")
     public ResponseEntity<UsuarioResponseDTO> actualizarUsuario(@PathVariable Long id, @Valid @RequestBody UsuarioRequestDTO usuarioDTO) {
         Usuario usuarioExistente = usuarioRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado con id: " + id));
+                .orElseThrow(() -> new UsuarioNotFoundException(id));
+
 
         // Usamos el método del mapper para actualizar solo los campos permitidos
         usuarioMapper.updateEntityFromDto(usuarioDTO, usuarioExistente);
@@ -63,7 +65,7 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioMapper.toDto(usuarioActualizado));
     }
 
-    // 🟢 Eliminar un usuario por ID
+   
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminarUsuario(@PathVariable Long id) {
         if (usuarioRepository.existsById(id)) {

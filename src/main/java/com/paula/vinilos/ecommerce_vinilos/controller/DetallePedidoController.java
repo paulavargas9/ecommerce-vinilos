@@ -2,6 +2,7 @@ package com.paula.vinilos.ecommerce_vinilos.controller;
 
 import com.paula.vinilos.ecommerce_vinilos.dto.DetallePedidoRequestDTO;
 import com.paula.vinilos.ecommerce_vinilos.dto.DetallePedidoResponseDTO;
+import com.paula.vinilos.ecommerce_vinilos.exception.DetallePedidoNotFoundException;
 import com.paula.vinilos.ecommerce_vinilos.mapper.DetallePedidoMapper;
 import com.paula.vinilos.ecommerce_vinilos.model.DetallePedido;
 import com.paula.vinilos.ecommerce_vinilos.repository.DetallePedidoRepository;
@@ -37,7 +38,7 @@ public class DetallePedidoController {
     @GetMapping("/{id}")
     public ResponseEntity<DetallePedidoResponseDTO> getDetallePedidoById(@PathVariable Long id) {
         DetallePedido detallePedido = detallePedidoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Detalle de pedido no encontrado con id: " + id));
+                .orElseThrow(() -> new DetallePedidoNotFoundException(id));
         return ResponseEntity.ok(detallePedidoMapper.toDto(detallePedido));
     }
 
@@ -53,8 +54,7 @@ public class DetallePedidoController {
     @PutMapping("/{id}")
     public ResponseEntity<DetallePedidoResponseDTO> actualizarDetallePedido(@PathVariable Long id, @Valid @RequestBody DetallePedidoRequestDTO detallePedidoDTO) {
         DetallePedido detallePedidoExistente = detallePedidoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Detalle de pedido no encontrado con id: " + id));
-
+        .orElseThrow(() -> new DetallePedidoNotFoundException(id));
         detallePedidoMapper.updateEntityFromDto(detallePedidoDTO, detallePedidoExistente);
         DetallePedido detallePedidoActualizado = detallePedidoRepository.save(detallePedidoExistente);
 

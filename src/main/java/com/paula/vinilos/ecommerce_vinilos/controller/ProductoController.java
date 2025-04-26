@@ -2,6 +2,7 @@ package com.paula.vinilos.ecommerce_vinilos.controller;
 
 import com.paula.vinilos.ecommerce_vinilos.dto.ProductoRequestDTO;
 import com.paula.vinilos.ecommerce_vinilos.dto.ProductoResponseDTO;
+import com.paula.vinilos.ecommerce_vinilos.exception.ProductoNotFoundException;
 import com.paula.vinilos.ecommerce_vinilos.mapper.ProductoMapper;
 import com.paula.vinilos.ecommerce_vinilos.model.Producto;
 import com.paula.vinilos.ecommerce_vinilos.repository.ProductoRepository;
@@ -53,7 +54,7 @@ public class ProductoController {
     @PutMapping("/{id}")
     public ResponseEntity<ProductoResponseDTO> actualizarProducto(@PathVariable Long id, @Valid @RequestBody ProductoRequestDTO productoDTO) {
         Producto productoExistente = productoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Producto no encontrado con id: " + id));
+                .orElseThrow(() -> new ProductoNotFoundException(id));
 
         productoMapper.updateEntityFromDto(productoDTO, productoExistente);
         Producto productoActualizado = productoRepository.save(productoExistente);
