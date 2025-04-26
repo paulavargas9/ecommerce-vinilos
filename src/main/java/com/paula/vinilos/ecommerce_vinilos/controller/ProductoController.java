@@ -6,6 +6,8 @@ import com.paula.vinilos.ecommerce_vinilos.exception.ProductoNotFoundException;
 import com.paula.vinilos.ecommerce_vinilos.mapper.ProductoMapper;
 import com.paula.vinilos.ecommerce_vinilos.model.Producto;
 import com.paula.vinilos.ecommerce_vinilos.repository.ProductoRepository;
+import com.paula.vinilos.ecommerce_vinilos.response.ApiResponse;
+import com.paula.vinilos.ecommerce_vinilos.response.ResponseBuilder;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -26,49 +28,51 @@ public class ProductoController {
     @Autowired
     private ProductoMapper productoMapper;
 
+    
     @GetMapping
-    public List<ProductoResponseDTO> getAllProductos() {
-        return productoRepository.findAll()
+    public ResponseEntity<ApiResponse<List<ProductoResponseDTO>>> getAllProductos() {
+        List<ProductoResponseDTO> productos = productoRepository.findAll()
                 .stream()
                 .map(productoMapper::toDto)
                 .collect(Collectors.toList());
+        return ResponseBuilder.ok("Lista de productos obtenida correctamente", productos);
     }
 
     
     @GetMapping("/{id}")
-    public ResponseEntity<ProductoResponseDTO> getProductoById(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<ProductoResponseDTO>> getProductoById(@PathVariable Long id) {
         Producto producto = productoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Producto no encontrado con id: " + id));
-        return ResponseEntity.ok(productoMapper.toDto(producto));
+                .orElseThrow(() -> new ProductoNotFoundException(id));
+        return ResponseBuilder.ok("Producto encontrado", productoMapper.toDto(producto));
     }
 
     
     @PostMapping
-    public ResponseEntity<ProductoResponseDTO> crearProducto(@Valid @RequestBody ProductoRequestDTO productoDTO) {
+    public ResponseEntity<ApiResponse<ProductoResponseDTO>> crearProducto(@Valid @RequestBody ProductoRequestDTO productoDTO) {
         Producto producto = productoMapper.toEntity(productoDTO);
         Producto nuevoProducto = productoRepository.save(producto);
-        return ResponseEntity.ok(productoMapper.toDto(nuevoProducto));
+        return ResponseBuilder.created("Producto creado correctamente", productoMapper.toDto(nuevoProducto));
     }
 
     
     @PutMapping("/{id}")
-    public ResponseEntity<ProductoResponseDTO> actualizarProducto(@PathVariable Long id, @Valid @RequestBody ProductoRequestDTO productoDTO) {
+    public ResponseEntity<ApiResponse<ProductoResponseDTO>> actualizarProducto(@PathVariable Long id, @Valid @RequestBody ProductoRequestDTO productoDTO) {
         Producto productoExistente = productoRepository.findById(id)
                 .orElseThrow(() -> new ProductoNotFoundException(id));
 
         productoMapper.updateEntityFromDto(productoDTO, productoExistente);
         Producto productoActualizado = productoRepository.save(productoExistente);
 
-        return ResponseEntity.ok(productoMapper.toDto(productoActualizado));
+        return ResponseBuilder.ok("Producto actualizado correctamente", productoMapper.toDto(productoActualizado));
     }
 
-    
+   
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminarProducto(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<Void>> eliminarProducto(@PathVariable Long id) {
         if (productoRepository.existsById(id)) {
             productoRepository.deleteById(id);
-            return ResponseEntity.noContent().build();
+            return ResponseBuilder.deleted("Producto eliminado correctamente");
         }
-        return ResponseEntity.notFound().build();
+        throw new ProductoNotFoundException(id);
     }
 }

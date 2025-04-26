@@ -6,6 +6,8 @@ import com.paula.vinilos.ecommerce_vinilos.exception.DetallePedidoNotFoundExcept
 import com.paula.vinilos.ecommerce_vinilos.mapper.DetallePedidoMapper;
 import com.paula.vinilos.ecommerce_vinilos.model.DetallePedido;
 import com.paula.vinilos.ecommerce_vinilos.repository.DetallePedidoRepository;
+import com.paula.vinilos.ecommerce_vinilos.response.ApiResponse;
+import com.paula.vinilos.ecommerce_vinilos.response.ResponseBuilder;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -26,49 +28,51 @@ public class DetallePedidoController {
     @Autowired
     private DetallePedidoMapper detallePedidoMapper;
 
-   
+    
     @GetMapping
-    public List<DetallePedidoResponseDTO> getAllDetallesPedido() {
-        return detallePedidoRepository.findAll()
+    public ResponseEntity<ApiResponse<List<DetallePedidoResponseDTO>>> getAllDetallesPedido() {
+        List<DetallePedidoResponseDTO> detalles = detallePedidoRepository.findAll()
                 .stream()
                 .map(detallePedidoMapper::toDto)
                 .collect(Collectors.toList());
+        return ResponseBuilder.ok("Lista de detalles de pedido obtenida correctamente", detalles);
     }
 
+    
     @GetMapping("/{id}")
-    public ResponseEntity<DetallePedidoResponseDTO> getDetallePedidoById(@PathVariable Long id) {
-        DetallePedido detallePedido = detallePedidoRepository.findById(id)
+    public ResponseEntity<ApiResponse<DetallePedidoResponseDTO>> getDetallePedidoById(@PathVariable Long id) {
+        DetallePedido detalle = detallePedidoRepository.findById(id)
                 .orElseThrow(() -> new DetallePedidoNotFoundException(id));
-        return ResponseEntity.ok(detallePedidoMapper.toDto(detallePedido));
+        return ResponseBuilder.ok("Detalle de pedido encontrado", detallePedidoMapper.toDto(detalle));
     }
 
     
     @PostMapping
-    public ResponseEntity<DetallePedidoResponseDTO> crearDetallePedido(@Valid @RequestBody DetallePedidoRequestDTO detallePedidoDTO) {
-        DetallePedido detallePedido = detallePedidoMapper.toEntity(detallePedidoDTO);
-        DetallePedido nuevoDetallePedido = detallePedidoRepository.save(detallePedido);
-        return ResponseEntity.ok(detallePedidoMapper.toDto(nuevoDetallePedido));
+    public ResponseEntity<ApiResponse<DetallePedidoResponseDTO>> crearDetallePedido(@Valid @RequestBody DetallePedidoRequestDTO detalleDTO) {
+        DetallePedido detalle = detallePedidoMapper.toEntity(detalleDTO);
+        DetallePedido nuevoDetalle = detallePedidoRepository.save(detalle);
+        return ResponseBuilder.created("Detalle de pedido creado correctamente", detallePedidoMapper.toDto(nuevoDetalle));
     }
 
     
     @PutMapping("/{id}")
-    public ResponseEntity<DetallePedidoResponseDTO> actualizarDetallePedido(@PathVariable Long id, @Valid @RequestBody DetallePedidoRequestDTO detallePedidoDTO) {
-        DetallePedido detallePedidoExistente = detallePedidoRepository.findById(id)
-        .orElseThrow(() -> new DetallePedidoNotFoundException(id));
-        detallePedidoMapper.updateEntityFromDto(detallePedidoDTO, detallePedidoExistente);
-        DetallePedido detallePedidoActualizado = detallePedidoRepository.save(detallePedidoExistente);
+    public ResponseEntity<ApiResponse<DetallePedidoResponseDTO>> actualizarDetallePedido(@PathVariable Long id, @Valid @RequestBody DetallePedidoRequestDTO detalleDTO) {
+        DetallePedido detalleExistente = detallePedidoRepository.findById(id)
+                .orElseThrow(() -> new DetallePedidoNotFoundException(id));
 
-        return ResponseEntity.ok(detallePedidoMapper.toDto(detallePedidoActualizado));
+        detallePedidoMapper.updateEntityFromDto(detalleDTO, detalleExistente);
+        DetallePedido detalleActualizado = detallePedidoRepository.save(detalleExistente);
+
+        return ResponseBuilder.ok("Detalle de pedido actualizado correctamente", detallePedidoMapper.toDto(detalleActualizado));
     }
 
-   
+    
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminarDetallePedido(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<Void>> eliminarDetallePedido(@PathVariable Long id) {
         if (detallePedidoRepository.existsById(id)) {
             detallePedidoRepository.deleteById(id);
-            return ResponseEntity.noContent().build();
+            return ResponseBuilder.deleted("Detalle de pedido eliminado correctamente");
         }
-        return ResponseEntity.notFound().build();
+        throw new DetallePedidoNotFoundException(id);
     }
 }
-
