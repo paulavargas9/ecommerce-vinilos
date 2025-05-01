@@ -8,7 +8,7 @@ public class DetallePedidoResponseDTO {
     private Long productoId;
     private Long pedidoId;
 
-    // Getters y setters
+    
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 

@@ -11,14 +11,17 @@ public class ResponseBuilder {
         return ResponseEntity.ok(response);
     }
 
-    // (201 CREATED)
+    public static <T> ResponseEntity<ApiResponse<T>> noContent(String message) {
+        ApiResponse<T> response = new ApiResponse<>(HttpStatus.NO_CONTENT.value(), message, null);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(response);
+    }
+
     public static <T> ResponseEntity<ApiResponse<T>> created(String message, T data) {
         ApiResponse<T> response = new ApiResponse<>(HttpStatus.CREATED.value(), message, data);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    // 204
-    public static ResponseEntity<ApiResponse<Void>> deleted(String message) {
+    public static <T> ResponseEntity<ApiResponse<Void>> deleted(String message) {
         ApiResponse<Void> response = new ApiResponse<>(HttpStatus.OK.value(), message, null);
         return ResponseEntity.ok(response);
     }

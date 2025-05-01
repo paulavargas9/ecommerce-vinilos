@@ -31,7 +31,7 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
     }
 
-    // 🔥 Manejo de NotFound personalizado (aquí capturamos todas las nuestras)
+    // Manejo de NotFound personalizado (aquí capturamos todas las nuestras)
     @ExceptionHandler({
         UsuarioNotFoundException.class,
         ProductoNotFoundException.class,

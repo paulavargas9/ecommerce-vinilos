@@ -2,20 +2,18 @@ package com.paula.vinilos.ecommerce_vinilos.controller;
 
 import com.paula.vinilos.ecommerce_vinilos.dto.PedidoRequestDTO;
 import com.paula.vinilos.ecommerce_vinilos.dto.PedidoResponseDTO;
-import com.paula.vinilos.ecommerce_vinilos.exception.PedidoNotFoundException;
-import com.paula.vinilos.ecommerce_vinilos.mapper.PedidoMapper;
-import com.paula.vinilos.ecommerce_vinilos.model.Pedido;
-import com.paula.vinilos.ecommerce_vinilos.repository.PedidoRepository;
 import com.paula.vinilos.ecommerce_vinilos.response.ApiResponse;
 import com.paula.vinilos.ecommerce_vinilos.response.ResponseBuilder;
+import com.paula.vinilos.ecommerce_vinilos.service.IPedidoService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import jakarta.validation.Valid;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/pedidos")
@@ -23,57 +21,43 @@ import java.util.stream.Collectors;
 public class PedidoController {
 
     @Autowired
-    private PedidoRepository pedidoRepository;
+    private IPedidoService pedidoService;
 
-    @Autowired
-    private PedidoMapper pedidoMapper;
-
-    
+    // ✅ Endpoint para obtener todos los pedidos (sin paginación)
     @GetMapping
     public ResponseEntity<ApiResponse<List<PedidoResponseDTO>>> getAllPedidos() {
-        List<PedidoResponseDTO> pedidos = pedidoRepository.findAll()
-                .stream()
-                .map(pedidoMapper::toDto)
-                .collect(Collectors.toList());
+        List<PedidoResponseDTO> pedidos = pedidoService.getAllPedidos();
         return ResponseBuilder.ok("Lista de pedidos obtenida correctamente", pedidos);
     }
 
-    
+    // ✅ Endpoint para obtener pedidos paginados
+    @GetMapping("/page")
+    public ResponseEntity<ApiResponse<Page<PedidoResponseDTO>>> getPedidosPaginados(Pageable pageable) {
+        Page<PedidoResponseDTO> pagina = pedidoService.getPedidosPaginados(pageable);
+        return ResponseBuilder.ok("Página de pedidos obtenida correctamente", pagina);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<PedidoResponseDTO>> getPedidoById(@PathVariable Long id) {
-        Pedido pedido = pedidoRepository.findById(id)
-                .orElseThrow(() -> new PedidoNotFoundException(id));
-        return ResponseBuilder.ok("Pedido encontrado", pedidoMapper.toDto(pedido));
+        PedidoResponseDTO pedido = pedidoService.getPedidoById(id);
+        return ResponseBuilder.ok("Pedido encontrado", pedido);
     }
 
-    
     @PostMapping
     public ResponseEntity<ApiResponse<PedidoResponseDTO>> crearPedido(@Valid @RequestBody PedidoRequestDTO pedidoDTO) {
-        Pedido pedido = pedidoMapper.toEntity(pedidoDTO);
-        Pedido nuevoPedido = pedidoRepository.save(pedido);
-        return ResponseBuilder.created("Pedido creado correctamente", pedidoMapper.toDto(nuevoPedido));
+        PedidoResponseDTO nuevoPedido = pedidoService.crearPedido(pedidoDTO);
+        return ResponseBuilder.created("Pedido creado correctamente", nuevoPedido);
     }
 
-    
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse<PedidoResponseDTO>> actualizarPedido(@PathVariable Long id, @Valid @RequestBody PedidoRequestDTO pedidoDTO) {
-        Pedido pedidoExistente = pedidoRepository.findById(id)
-                .orElseThrow(() -> new PedidoNotFoundException(id));
-
-        pedidoMapper.updateEntityFromDto(pedidoDTO, pedidoExistente);
-        Pedido pedidoActualizado = pedidoRepository.save(pedidoExistente);
-
-        return ResponseBuilder.ok("Pedido actualizado correctamente", pedidoMapper.toDto(pedidoActualizado));
+        PedidoResponseDTO actualizado = pedidoService.actualizarPedido(id, pedidoDTO);
+        return ResponseBuilder.ok("Pedido actualizado correctamente", actualizado);
     }
 
-    
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<Void>> eliminarPedido(@PathVariable Long id) {
-        if (pedidoRepository.existsById(id)) {
-            pedidoRepository.deleteById(id);
-            return ResponseBuilder.deleted("Pedido eliminado correctamente");
-        }
-        throw new PedidoNotFoundException(id);
+        pedidoService.eliminarPedido(id);
+        return ResponseBuilder.noContent("Pedido eliminado correctamente");
     }
 }
-

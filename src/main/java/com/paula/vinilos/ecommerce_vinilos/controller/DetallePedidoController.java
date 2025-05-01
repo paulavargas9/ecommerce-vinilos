@@ -2,77 +2,62 @@ package com.paula.vinilos.ecommerce_vinilos.controller;
 
 import com.paula.vinilos.ecommerce_vinilos.dto.DetallePedidoRequestDTO;
 import com.paula.vinilos.ecommerce_vinilos.dto.DetallePedidoResponseDTO;
-import com.paula.vinilos.ecommerce_vinilos.exception.DetallePedidoNotFoundException;
-import com.paula.vinilos.ecommerce_vinilos.mapper.DetallePedidoMapper;
-import com.paula.vinilos.ecommerce_vinilos.model.DetallePedido;
-import com.paula.vinilos.ecommerce_vinilos.repository.DetallePedidoRepository;
 import com.paula.vinilos.ecommerce_vinilos.response.ApiResponse;
 import com.paula.vinilos.ecommerce_vinilos.response.ResponseBuilder;
+import com.paula.vinilos.ecommerce_vinilos.service.IDetallePedidoService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import jakarta.validation.Valid;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/detalles-pedido")
+@RequestMapping("/api/detalle-pedidos")
 @CrossOrigin(origins = "*")
 public class DetallePedidoController {
 
     @Autowired
-    private DetallePedidoRepository detallePedidoRepository;
+    private IDetallePedidoService detallePedidoService;
 
-    @Autowired
-    private DetallePedidoMapper detallePedidoMapper;
-
-    
     @GetMapping
-    public ResponseEntity<ApiResponse<List<DetallePedidoResponseDTO>>> getAllDetallesPedido() {
-        List<DetallePedidoResponseDTO> detalles = detallePedidoRepository.findAll()
-                .stream()
-                .map(detallePedidoMapper::toDto)
-                .collect(Collectors.toList());
-        return ResponseBuilder.ok("Lista de detalles de pedido obtenida correctamente", detalles);
+    public ResponseEntity<ApiResponse<List<DetallePedidoResponseDTO>>> getAllDetallePedidos() {
+        List<DetallePedidoResponseDTO> detalles = detallePedidoService.getAllDetallePedidos();
+        return ResponseBuilder.ok("Lista de detalles de pedidos obtenida correctamente", detalles);
     }
 
     
+    @GetMapping("/page")
+    public ResponseEntity<ApiResponse<Page<DetallePedidoResponseDTO>>> getDetallePedidosPaginados(Pageable pageable) {
+        Page<DetallePedidoResponseDTO> pagina = detallePedidoService.getDetallePedidosPaginados(pageable);
+        return ResponseBuilder.ok("Página de detalles de pedidos obtenida correctamente", pagina);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<DetallePedidoResponseDTO>> getDetallePedidoById(@PathVariable Long id) {
-        DetallePedido detalle = detallePedidoRepository.findById(id)
-                .orElseThrow(() -> new DetallePedidoNotFoundException(id));
-        return ResponseBuilder.ok("Detalle de pedido encontrado", detallePedidoMapper.toDto(detalle));
+        DetallePedidoResponseDTO detallePedido = detallePedidoService.getDetallePedidoById(id);
+        return ResponseBuilder.ok("Detalle de pedido encontrado", detallePedido);
     }
 
-    
     @PostMapping
-    public ResponseEntity<ApiResponse<DetallePedidoResponseDTO>> crearDetallePedido(@Valid @RequestBody DetallePedidoRequestDTO detalleDTO) {
-        DetallePedido detalle = detallePedidoMapper.toEntity(detalleDTO);
-        DetallePedido nuevoDetalle = detallePedidoRepository.save(detalle);
-        return ResponseBuilder.created("Detalle de pedido creado correctamente", detallePedidoMapper.toDto(nuevoDetalle));
+    public ResponseEntity<ApiResponse<DetallePedidoResponseDTO>> crearDetallePedido(@Valid @RequestBody DetallePedidoRequestDTO detallePedidoDTO) {
+        DetallePedidoResponseDTO nuevoDetallePedido = detallePedidoService.crearDetallePedido(detallePedidoDTO);
+        return ResponseBuilder.created("Detalle de pedido creado correctamente", nuevoDetallePedido);
     }
 
-    
     @PutMapping("/{id}")
-    public ResponseEntity<ApiResponse<DetallePedidoResponseDTO>> actualizarDetallePedido(@PathVariable Long id, @Valid @RequestBody DetallePedidoRequestDTO detalleDTO) {
-        DetallePedido detalleExistente = detallePedidoRepository.findById(id)
-                .orElseThrow(() -> new DetallePedidoNotFoundException(id));
-
-        detallePedidoMapper.updateEntityFromDto(detalleDTO, detalleExistente);
-        DetallePedido detalleActualizado = detallePedidoRepository.save(detalleExistente);
-
-        return ResponseBuilder.ok("Detalle de pedido actualizado correctamente", detallePedidoMapper.toDto(detalleActualizado));
+    public ResponseEntity<ApiResponse<DetallePedidoResponseDTO>> actualizarDetallePedido(@PathVariable Long id, @Valid @RequestBody DetallePedidoRequestDTO detallePedidoDTO) {
+        DetallePedidoResponseDTO actualizado = detallePedidoService.actualizarDetallePedido(id, detallePedidoDTO);
+        return ResponseBuilder.ok("Detalle de pedido actualizado correctamente", actualizado);
     }
 
-    
+
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<Void>> eliminarDetallePedido(@PathVariable Long id) {
-        if (detallePedidoRepository.existsById(id)) {
-            detallePedidoRepository.deleteById(id);
-            return ResponseBuilder.deleted("Detalle de pedido eliminado correctamente");
-        }
-        throw new DetallePedidoNotFoundException(id);
+        detallePedidoService.eliminarDetallePedido(id);
+        return ResponseBuilder.noContent("Detalle de pedido eliminado correctamente");
     }
 }
