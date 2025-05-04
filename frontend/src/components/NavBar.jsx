@@ -4,10 +4,11 @@ import { MdMenu } from "react-icons/md";
 import { PiShoppingCartSimpleThin } from "react-icons/pi";
 import { CiHeart } from "react-icons/ci";
 import { useState } from "react";
+import ResponsiveMenu from './ResponsiveMenu';
 
 
 
-const  NavBar = () =>{
+const  NavBar = () => {
     const[open, setOpen] = useState (false);
     return(
         <>
@@ -15,7 +16,7 @@ const  NavBar = () =>{
         <div className='container flex justify-between items-center py-8'>
         {/*Logo section*/}
         <div className='text-2xl flex items-center gap-2 font-bold uppercase'>
-        <img src="/logo.png" alt="VinilosStore Logo" className="h-10 w-auto" />
+        <img src="../img/logo.webp" alt="Logo" className="h-10 w-auto" />
         <span className="text-2xl font-bold">LAMEDISCOS</span>  
         </div>
          {/*Menu section*/}
@@ -25,7 +26,7 @@ const  NavBar = () =>{
                     <li key={item.id}>
                         <a 
                         href={item.link}
-                        className='inline-bloc py-1 px-3 hover:text-primary 
+                        className='inline-block py-1 px-3 hover:text-primary 
                         font-semibold'>
                             {item.title}
                         </a>                   
@@ -49,7 +50,7 @@ const  NavBar = () =>{
                 </button>
                 <button className='hover:bg-primary text-primary font-semibold
                 hover:text-white rounded-md border-primary px-6 py-2 duration-200 hidden md:block'>
-                    Login
+                    INICIAR SESION
                 </button>
 
                 </div>
@@ -59,16 +60,13 @@ const  NavBar = () =>{
                     onClick={() => setOpen(!open)}
                     className ='text-4xl' />
                 </div>
-
-
            </div>
         </nav>
         
          {/*Mobile slider section*/}
-
-
+         <ResponsiveMenu open ={open} navbarLinks ={navbarLinks}/>
         </>
-    )
-}
+    );
+};
 
 export default NavBar;

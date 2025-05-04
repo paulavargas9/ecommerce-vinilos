@@ -11,21 +11,21 @@ export const navbarLinks = [
 {
     id:2,
     title:"Géneros",
-    link:"/"
+    link:"#"
 
 },
 
 {
     id:3,
     title:"Contacto",
-    link:"/"
+    link:"#"
 
 },
 
 {
     id:4,
     title:"Sobre nosotros",
-    link:"/"
+    link:"#"
 
 }
 
