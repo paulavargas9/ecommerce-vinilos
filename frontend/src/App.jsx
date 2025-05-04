@@ -1,24 +1,9 @@
-import { useEffect, useState } from "react";
-import { getProductos } from "./api/productos";
-import ProductCard from "./components/ProductCard";
+import NavBar from "./components/Navbar";
 
-function App() {
-  const [productos, setProductos] = useState([]);
-
-  useEffect(() => {
-    getProductos().then((data) => {
-      setProductos(data.content); 
-    });
-  }, []);
-
+const App =() =>{
   return (
-    <div style={{ padding: "2rem" }}>
-      <h1>Mi tienda de vinilos 🎵</h1>
-      <div style={{ display: "flex", flexWrap: "wrap" }}>
-        {productos.map((producto) => (
-          <ProductCard key={producto.id} producto={producto} />
-        ))}
-      </div>
+    <div className="overflow-x-hidden">
+      <NavBar/>
     </div>
   );
 }
