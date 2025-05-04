@@ -36,6 +36,15 @@ return (
         style={{ backgroundImage: `url(${intro})` }}
       >
         {/*Descripcion y botón */}
+        <h1 className="text-4xl md:text-5xl font-bold drop-shadow-lg">Descubre tu sonido perfecto</h1>
+        <p className="text-lg max-w-xl drop-shadow-md">
+        En LameDiscos descubrirás los mejores vinilos clásicos y modernos, seleccionados para quienes saben lo que quieren escuchar. Stock real, envíos rápidos y atención de verdad. Si te importa el sonido, este es tu sitio.
+        </p>
+
+        <button data-aos="zoom-in" data-aos-delay="200"
+        className="bg-primary px-6 py-3 rounded-lg text-white font-semibold
+         shadow-md hover:bg-white hover:text-primary transition duration-300">Ver catálogo</button>
+
       </div>
     </div>
   </Slider>
