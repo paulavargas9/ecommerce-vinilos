@@ -53,6 +53,7 @@ return (
         className="w-full h-[600px] lg:h-[700px] px-5 lg:px-20 flex flex-col justify-center items-start gap-10 bg-center bg-cover "
         style={{ backgroundImage: `url(${bestSellers})` }}
       >
+        {/*Tendencias */}
         <div className="text-center text-white">
             <h1 className="text-2xl md:text-4xl font-extrabold drop-shadow-lg">Vinilos en Tendencia</h1>
             <button className="mt-6 bg-primary text-white px-6 py-3 rounded-md text-lg font-semibold hover:bg-white hover:text-primary transition duration-300 shadow-lg">
@@ -66,7 +67,7 @@ return (
         className="w-full h-[600px] lg:h-[700px] px-5 lg:px-20 flex flex-col justify-center  gap-6 bg-center bg-cover  "
         style={{ backgroundImage: `url(${discountedVinyls})` }}
       >
-        {/*Rebajas */}
+        {/*nuevas joyas*/}
         <h1 className=" self-end text-white text-2xl md:text-4xl text-right font-bold drop-shadow-2xl">NUEVAS JOYAS PARA TU COLECCION</h1>
 
         <button data-aos="zoom-in" data-aos-delay="200"
