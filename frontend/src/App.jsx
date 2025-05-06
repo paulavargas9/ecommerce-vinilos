@@ -1,5 +1,7 @@
 import NavBar from "./components/Navbar";
 import Hero from "./components/Hero";
+import Items from "./components/items";
+
 
 
 export default function App(){
@@ -8,6 +10,7 @@ export default function App(){
 <>
     <NavBar />
     <Hero />
+    <Items />
 
 
 </>
