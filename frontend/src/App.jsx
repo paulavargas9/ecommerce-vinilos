@@ -1,6 +1,7 @@
 import NavBar from "./components/Navbar";
 import Hero from "./components/Hero";
 import Items from "./components/items";
+import Types from "./components/Types";
 
 
 
@@ -11,6 +12,7 @@ export default function App(){
     <NavBar />
     <Hero />
     <Items />
+    <Types />
 
 
 </>
@@ -20,15 +22,3 @@ export default function App(){
 
 
 
-
-
-/*const App =() =>{
-  return (
-    <div className="overflow-x-hidden">
-      <NavBar/>
-      <Hero/>
-    </div>
-  );
-}
-
-export default App;*/
