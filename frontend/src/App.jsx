@@ -1,25 +1,21 @@
-import NavBar from "./components/Navbar";
-import Hero from "./components/Hero";
-import Items from "./components/items";
-import Types from "./components/Types";
-import Services from "./components/services";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
 
+// Páginas
+import Home from "./pages/Home";
 
-
-export default function App(){
-
-  return(
-<>
-    <NavBar />
-    <Hero />
-    <Items />
-    <Types />
-    <Services />
-    <Footer/>
-</>
-
-  )
+export default function App() {
+  return (
+    <Router>
+      <NavBar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        {/* Aquí agregaremos más rutas luego */}
+      </Routes>
+      <Footer />
+    </Router>
+  );
 }
 
 

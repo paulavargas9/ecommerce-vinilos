@@ -22,7 +22,7 @@ const Services = () =>{
 
 return(
 
-<div className="w-full lg:px-20 px-5 pt-[0px] pb-[-80px] grid lg:grid-cols-3
+<div className="w-full lg:px-20 px-5 pt-[0px] pb-[80px] grid lg:grid-cols-3
 grid-cols-1 justify-center items-center text-center gap-10">
     <div data-aos ="zoom-in" data-aos-delay ="100" className="flex flex-col justify-center items-center gap-2" >
     <img src={shipping} alt="" className="mb-[20px] w-[60px]" />
