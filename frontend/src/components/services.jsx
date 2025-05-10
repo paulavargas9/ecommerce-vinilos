@@ -10,7 +10,6 @@ import 'aos/dist/aos.css';
 const Services = () =>{
 
 
-
  useEffect(() =>{
         AOS.init({
             offset: 100,
@@ -20,10 +19,6 @@ const Services = () =>{
         AOS.refresh();
 
       },[])
-
-
-
-
 
 return(
 

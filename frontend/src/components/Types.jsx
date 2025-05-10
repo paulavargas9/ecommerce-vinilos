@@ -1,5 +1,5 @@
 import React , { useEffect } from "react"
-import intro from "../assets/slider3.jpg"
+import intro from "../assets/oferta.jpg"
 import AOS from "aos";
 import 'aos/dist/aos.css';
 
