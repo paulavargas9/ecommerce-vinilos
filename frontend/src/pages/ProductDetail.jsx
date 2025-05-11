@@ -1,5 +1,7 @@
-import { useParams, Link } from "react-router-dom";
-const mockData = {
+import { useParams } from "react-router-dom";
+
+// Todos los productos de todos los géneros
+const mockData ={
   rock: [
     { id: 1, slug: "queen", title: "Queen – Greatest Hits", img: "/assets/macMiller.jpg", price: 18.99 },
     { id: 2, slug: "nirvana", title: "Nirvana – Nevermind", img: "/assets/macMiller.jpg", price: 18.99 },
@@ -72,33 +74,39 @@ const mockData = {
     { id: 53, slug: "arctic-monkeys", title: "Arctic Monkeys – AM", img: "/assets/macMiller.jpg" , price: 18.99},
     { id: 54, slug: "phoenix", title: "Phoenix – Wolfgang Amadeus Phoenix", img: "/assets/macMiller.jpg" ,price: 18.99 }
   ]
-  };
-  
+  // Añade aquí los demás géneros como jazz, pop, hiphop, etc.
+};
 
-export default function Category() {
-  const { categoria } = useParams();
-  const productos = mockData[categoria] || [];
+const allProducts = Object.values(mockData).flat();
+
+export default function ProductDetail() {
+  const { slug } = useParams();
+  const product = allProducts.find((p) => p.slug === slug);
+
+  if (!product) {
+    return (
+      <div className="p-10">
+        <h1 className="text-2xl font-bold">Producto no encontrado</h1>
+      </div>
+    );
+  }
 
   return (
-    <div className="p-10">
-      <h1 className="text-3xl font-bold capitalize mb-6">Género: {categoria}</h1>
+    <div className="p-10 grid grid-cols-1 md:grid-cols-2 gap-10">
+      <img src={product.img} alt={product.title} className="rounded-lg shadow-lg" />
+      <div>
+        <h1 className="text-3xl font-bold mb-4">{product.title}</h1>
+        <p className="text-lg text-gray-600 mb-4">
+          Este vinilo es una edición especial para verdaderos amantes del sonido clásico. Añádelo a tu colección
+          y disfruta de la experiencia sonora como se debe.
+        </p>
+        <p className="text-2xl font-semibold mb-6">Precio: {product.price} €</p>
 
-      {productos.length === 0 ? (
-        <p className="text-gray-500">No hay productos disponibles para esta categoría aún.</p>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {productos.map((producto) => (
-            <Link
-            to={`/producto/${producto.slug}`}
-              key={producto.id}
-              className="border rounded-xl p-4 hover:shadow-lg transition"
-            >
-              <img src={producto.img} alt={producto.title} className="rounded-lg mb-4" />
-              <h2 className="text-xl font-semibold">{producto.title}</h2>
-            </Link>
-          ))}
-        </div>
-      )}
+
+        <button className="bg-primary text-white px-6 py-3 rounded-lg hover:bg-white hover:text-primary border border-primary transition">
+          Añadir al carrito
+        </button>
+      </div>
     </div>
   );
 }

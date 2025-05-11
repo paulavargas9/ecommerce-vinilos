@@ -8,6 +8,7 @@ import Contact from "./pages/Contact";
 import About from "./pages/About";
 import NotFound from "./pages/NotFound";
 import Category from "./pages/Category";
+import ProductDetail from "./pages/ProductDetail";
 
 export default function App() {
   return (
@@ -15,6 +16,7 @@ export default function App() {
       <NavBar />
       <div className="flex-grow">
       <Routes>
+      <Route path="/producto/:slug" element={<ProductDetail />} />
       <Route path="/shop/:categoria" element={<Category />} />
         <Route path="/" element={<Home />} />
         <Route path="/shop" element={<Shop />} />
