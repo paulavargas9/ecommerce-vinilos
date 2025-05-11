@@ -10,6 +10,7 @@ import NotFound from "./pages/NotFound";
 import Category from "./pages/Category";
 import ProductDetail from "./pages/ProductDetail";
 
+
 export default function App() {
   const { cart, addToCart } = useCart(); // prueba de lectura
   console.log("Carrito actual:", cart);  // prueba en consola

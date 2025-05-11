@@ -1,4 +1,6 @@
 import { useParams } from "react-router-dom";
+import { useCart } from "../context/CartContext";
+
 
 // Todos los productos de todos los géneros
 const mockData ={
@@ -80,8 +82,9 @@ const mockData ={
 const allProducts = Object.values(mockData).flat();
 
 export default function ProductDetail() {
-  const { slug } = useParams();
-  const product = allProducts.find((p) => p.slug === slug);
+    const { addToCart } = useCart();
+    const { slug } = useParams();
+    const product = allProducts.find((p) => p.slug === slug);
 
   if (!product) {
     return (
@@ -103,10 +106,14 @@ export default function ProductDetail() {
         <p className="text-2xl font-semibold mb-6">Precio: {product.price} €</p>
 
 
-        <button className="bg-primary text-white px-6 py-3 rounded-lg hover:bg-white hover:text-primary border border-primary transition">
-          Añadir al carrito
+        <button
+        onClick={() => addToCart(product)}
+        className="bg-primary text-white px-6 py-3 rounded-lg hover:bg-white hover:text-primary border border-primary transition"
+        >
+        Añadir al carrito
         </button>
-      </div>
+
+        </div>
     </div>
   );
 }
