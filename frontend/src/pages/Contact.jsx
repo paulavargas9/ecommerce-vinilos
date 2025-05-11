@@ -1,9 +1,16 @@
+import Hero from "../components/Hero";
+import Items from "../components/ItemsHome";
+import Types from "../components/Types";
+import Services from "../components/Service"
+
 export default function Contact() {
     return (
-      <div className="p-10">
-        <h1 className="text-3xl font-bold">Contacto</h1>
-        <p>¿Tienes dudas? Contáctanos y te responderemos lo antes posible.</p>
-      </div>
+        <>
+        <Hero />
+        <Items />
+        <Types />
+        <Services />
+      </>
     );
   }
   

@@ -7,6 +7,8 @@ import bestSellers from "../assets/slider2.jpg"
 import discountedVinyls from "../assets/slider3.3.jpg"
 import AOS from "aos";
 import 'aos/dist/aos.css';
+import { Link } from "react-router-dom";
+
 
 const Hero  = () => {
 
@@ -43,9 +45,15 @@ return (
         En LameDiscos descubrirás los mejores vinilos clásicos y modernos, seleccionados para quienes saben lo que quieren escuchar. Stock real, envíos rápidos y atención de verdad. Si te importa el sonido, este es tu sitio.
         </p>
 
-        <button data-aos="zoom-in" data-aos-delay="200"
-        className="bg-primary px-6 py-3 rounded-lg text-white font-semibold
-         shadow-md hover:bg-white hover:text-primary transition duration-300">VER CATALOGO</button>
+        <Link
+          to="/shop"
+          data-aos="zoom-in"
+          data-aos-delay="200"
+          className="bg-primary px-6 py-3 rounded-lg text-white font-semibold shadow-md hover:bg-white hover:text-primary transition duration-300"
+        >
+          VER CATALOGO
+        </Link>
+
       </div>
     </div>
     <div>
@@ -54,11 +62,15 @@ return (
         style={{ backgroundImage: `url(${bestSellers})` }}
       >
         {/*Tendencias */}
-        <div className="text-center text-white">
-            <h1 className="text-2xl md:text-4xl font-extrabold drop-shadow-lg">Vinilos en Tendencia</h1>
-            <button className="mt-6 bg-primary text-white px-6 py-3 rounded-md text-lg font-semibold hover:bg-white hover:text-primary transition duration-300 shadow-lg">
+        <div className="text-center text-white gap-8">
+            <h1 className="text-2xl md:text-4xl font-extrabold drop-shadow-lg ">Vinilos en Tendencia</h1>
+            <Link
+            to="/shop"
+            className=" bg-primary text-white px-6 py-3 rounded-md text-lg font-semibold hover:bg-white hover:text-primary transition duration-300 shadow-lg"
+          >
             VER TENDENCIAS
-            </button>
+          </Link>
+
         </div>
       </div>
     </div>
@@ -70,9 +82,14 @@ return (
         {/*nuevas joyas*/}
         <h1 className=" self-end text-white text-2xl md:text-4xl text-right font-bold drop-shadow-2xl">NUEVAS JOYAS PARA TU COLECCION</h1>
 
-        <button data-aos="zoom-in" data-aos-delay="200"
-        className="self-end ml-6 bg-primary px-6 py-3 rounded-lg text-white font-semibold
-         shadow-md hover:bg-white hover:text-primary transition duration-300">VERLAS TODAS</button>
+        <Link
+        to="/shop"
+        data-aos="zoom-in"
+        data-aos-delay="200"
+        className="self-end ml-6 bg-primary px-6 py-3 rounded-lg text-white font-semibold shadow-md hover:bg-white hover:text-primary transition duration-300"
+      >
+        VERLAS TODAS
+      </Link>
       </div>
     </div>
   </Slider>

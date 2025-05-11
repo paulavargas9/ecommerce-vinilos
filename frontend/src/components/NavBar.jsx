@@ -5,6 +5,8 @@ import { PiShoppingCartSimpleThin } from "react-icons/pi";
 import { CiHeart } from "react-icons/ci";
 import { useState } from "react";
 import ResponsiveMenu from './ResponsiveMenu';
+import { Link } from "react-router-dom";
+
 
 
 
@@ -22,15 +24,15 @@ const  NavBar = () => {
          {/*Menu section*/}
          <div className="hidden md:block">
             <ul className="flex items-center gap-6 text-gray-600">
-                {navbarLinks.map((item) => (
-                    <li key={item.id}>
-                        <a 
-                        href={item.link}
-                        className='inline-block py-1 px-3 hover:text-primary 
-                        font-semibold'>
-                            {item.title}
-                        </a>                   
-                    </li>
+            {navbarLinks.map((item) => (
+                <li key={item.id}>
+                    <Link
+                    to={item.link}
+                    className="inline-block py-1 px-3 hover:text-primary font-semibold"
+                    >
+                    {item.title}
+                    </Link>
+                </li>
                 ))}
             </ul>      
          </div>

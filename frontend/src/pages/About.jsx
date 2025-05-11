@@ -1,9 +1,16 @@
+import Hero from "../components/Hero";
+import Items from "../components/ItemsHome";
+import Types from "../components/Types";
+import Services from "../components/Service"
+
 export default function About() {
     return (
-      <div className="p-10">
-        <h1 className="text-3xl font-bold">Sobre Nosotros</h1>
-        <p>Somos una tienda especializada en vinilos. Nuestra pasión es tu música.</p>
-      </div>
+        <>
+      <Hero />
+      <Items />
+      <Types />
+      <Services />
+    </>
     );
   }
   

@@ -3,6 +3,9 @@ import {
     motion
 } from "framer-motion";
 
+import { Link } from "react-router-dom";
+
+
 const ResponsiveMenu = ({
     open,
     navbarLinks,
@@ -23,10 +26,15 @@ const ResponsiveMenu = ({
             <div 
             className='text-l font-semibold uppercase bg-primary text-white py-6 m-6 rounded-3xl'>
             <ul className='flex flex-col justify-center items-center gap-10'>
-                {navbarLinks.map((item) => (          
-                    <li key={item.id}>
-                        {item.title}
-                    </li>
+            {navbarLinks.map((item) => (
+                <li key={item.id}>
+                    <Link
+                    to={item.link}
+                    className="hover:underline text-lg font-semibold"
+                    >
+                    {item.title}
+                    </Link>
+                </li>
                 ))}
                 </ul>
             </div>
