@@ -11,7 +11,7 @@ export const navbarLinks = [
 {
     id:2,
     title:"Géneros",
-    link:"#"
+    link:"/shop"
 
 },
 
