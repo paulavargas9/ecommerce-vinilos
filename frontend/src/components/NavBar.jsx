@@ -6,12 +6,18 @@ import { CiHeart } from "react-icons/ci";
 import { useState } from "react";
 import ResponsiveMenu from './ResponsiveMenu';
 import { Link } from "react-router-dom";
+import { useCart } from "../context/CartContext";
+
 
 
 
 
 const  NavBar = () => {
     const[open, setOpen] = useState (false);
+    const { cart } = useCart();
+    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+
     return(
         <>
         <nav>
@@ -42,9 +48,13 @@ const  NavBar = () => {
                 className='text-2xl hover:bg-primary hover:text-white rounded-full p-2 duration-200'>
                     <CiSearch/>   
                 </button>
-                <button 
-                className='text-2xl hover:bg-primary hover:text-white rounded-full p-2 duration-200'>
-                    <PiShoppingCartSimpleThin/>   
+                <button className="relative">
+                <PiShoppingCartSimpleThin className="text-2xl" />
+                {totalItems > 0 && (
+                    <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">
+                    {totalItems}
+                    </span>
+                )}
                 </button>
                 <button 
                 className='text-2xl hover:bg-primary hover:text-white rounded-full p-2 duration-200'>
