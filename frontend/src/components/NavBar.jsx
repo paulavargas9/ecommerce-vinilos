@@ -48,14 +48,14 @@ const  NavBar = () => {
                 className='text-2xl hover:bg-primary hover:text-white rounded-full p-2 duration-200'>
                     <CiSearch/>   
                 </button>
-                <button className="relative">
+                <Link to="/carrito" className="relative">
                 <PiShoppingCartSimpleThin className="text-2xl" />
                 {totalItems > 0 && (
                     <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">
                     {totalItems}
                     </span>
                 )}
-                </button>
+                </Link>
                 <button 
                 className='text-2xl hover:bg-primary hover:text-white rounded-full p-2 duration-200'>
                     <CiHeart/>   

@@ -9,11 +9,13 @@ import About from "./pages/About";
 import NotFound from "./pages/NotFound";
 import Category from "./pages/Category";
 import ProductDetail from "./pages/ProductDetail";
+import Cart from "./pages/Cart";
+
 
 
 export default function App() {
-  const { cart, addToCart } = useCart(); // prueba de lectura
-  console.log("Carrito actual:", cart);  // prueba en consola
+  const { cart, addToCart } = useCart(); // PRUEBA RECUERDA QUITARLO
+  console.log("Carrito actual:", cart);  // PRUEBA RECUERDA QUITARLO
   return (
     <div className="min-h-screen flex flex-col">
       <NavBar />
@@ -21,6 +23,7 @@ export default function App() {
       <Routes>
       <Route path="/producto/:slug" element={<ProductDetail />} />
       <Route path="/shop/:categoria" element={<Category />} />
+      <Route path="/carrito" element={<Cart />} />
         <Route path="/" element={<Home />} />
         <Route path="/shop" element={<Shop />} />
         <Route path="/contact" element={<Contact />} />
