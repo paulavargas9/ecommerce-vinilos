@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
-
+import { useCart } from "./context/CartContext"; 
 import Home from "./pages/Home";
 import Shop from "./pages/Shop";
 import Contact from "./pages/Contact";
@@ -11,6 +11,8 @@ import Category from "./pages/Category";
 import ProductDetail from "./pages/ProductDetail";
 
 export default function App() {
+  const { cart, addToCart } = useCart(); // prueba de lectura
+  console.log("Carrito actual:", cart);  // prueba en consola
   return (
     <div className="min-h-screen flex flex-col">
       <NavBar />
