@@ -10,6 +10,7 @@ import NotFound from "./pages/NotFound";
 import Category from "./pages/Category";
 import ProductDetail from "./pages/ProductDetail";
 import Cart from "./pages/Cart";
+import Checkout from "./pages/Checkout";
 
 
 
@@ -21,6 +22,7 @@ export default function App() {
       <NavBar />
       <div className="flex-grow">
       <Routes>
+      <Route path="/checkout" element={<Checkout />} />
       <Route path="/producto/:slug" element={<ProductDetail />} />
       <Route path="/shop/:categoria" element={<Category />} />
       <Route path="/carrito" element={<Cart />} />
