@@ -19,18 +19,22 @@ export function CartProvider({ children }) {
     useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
+
       
   //  añadir discos al carrito
-  const addToCart = (product) => {
+  const addToCart = (product, quantity = 1) => {
     const exists = cart.find((item) => item.id === product.id);
     if (exists) {
       setCart(cart.map((item) =>
-        item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
+        item.id === product.id
+          ? { ...item, quantity: item.quantity + quantity }
+          : item
       ));
     } else {
-      setCart([...cart, { ...product, quantity: 1 }]);
+      setCart([...cart, { ...product, quantity }]);
     }
   };
+  
 
   // eliminar del carrito
   const removeFromCart = (productId) => {
@@ -40,12 +44,41 @@ export function CartProvider({ children }) {
   // Vaciar carrito
   const clearCart = () => setCart([]);
 
+  const incrementItem = (id) => {
+    setCart(cart =>
+      cart.map(item =>
+        item.id === id ? { ...item, quantity: item.quantity + 1 } : item
+      )
+    );
+  };
+  
+  const decrementItem = (id) => {
+    setCart(cart =>
+      cart.map(item =>
+        item.id === id && item.quantity > 1
+          ? { ...item, quantity: item.quantity - 1 } : item
+      )
+    );
+  };
+  
+
   // Total
   const cartTotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart, clearCart, cartTotal }}>
-      {children}
-    </CartContext.Provider>
+    <CartContext.Provider
+  value={{
+    cart,
+    addToCart,
+    removeFromCart,
+    clearCart,
+    cartTotal,
+    incrementItem, 
+    decrementItem, 
+  }}
+>
+  {children}
+</CartContext.Provider>
+
   );
 }

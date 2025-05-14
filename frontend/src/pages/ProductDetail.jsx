@@ -63,17 +63,12 @@ export default function ProductDetail() {
 
           {/* Botones */}
           <div className="flex gap-4 mb-6">
-            <button
-              onClick={() =>
-                Array(quantity)
-                  .fill()
-                  .forEach(() => addToCart(product))
-              }
-              className="bg-black text-white px-6 py-3 rounded-md font-semibold hover:opacity-80"
-            >
-              AÑADIR A LA CESTA
-            </button>
-
+          <button
+            onClick={() => addToCart(product, quantity)}
+            className="bg-black text-white px-6 py-3 rounded-md font-semibold hover:opacity-80"
+          >
+            AÑADIR A LA CESTA
+          </button>
             <button className="border border-gray-400 rounded-md p-3 text-gray-700 hover:bg-gray-100">
               <FaHeart />
             </button>

@@ -4,6 +4,7 @@ import { useState } from "react";
 
 export default function Checkout() {
   const { cart, cartTotal, clearCart } = useCart();
+  const shippingCost = 2.99;
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -11,6 +12,10 @@ export default function Checkout() {
     email: "",
     phone: "",
     address: "",
+    city: "",
+    zip: "",
+    region: "Madrid",
+    note: "",
     payment: "credit-card",
   });
 
@@ -23,15 +28,14 @@ export default function Checkout() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!formData.name || !formData.email || !formData.phone || !formData.address) {
-      alert("Por favor, completa todos los campos obligatorios.");
+
+    if (!formData.name || !formData.email || !formData.phone) {
+      alert("Por favor completa todos los campos.");
       return;
     }
 
-    // Simular pedido
-    alert("✅ Pedido confirmado. Gracias por tu compra.");
     clearCart();
-    navigate("/");
+    navigate("/order-confirmation");
   };
 
   return (
@@ -77,15 +81,69 @@ export default function Checkout() {
         {/* Shipping */}
         <div>
           <h2 className="text-lg font-semibold mb-4">Dirección de envío</h2>
-          <input
-            required
-            name="address"
-            type="text"
-            placeholder="Calle, ciudad y código postal"
-            value={formData.address}
-            onChange={handleChange}
-            className="w-full border px-4 py-2 rounded"
-          />
+          <div className="grid grid-cols-1 gap-4">
+            <input
+              required
+              name="address"
+              type="text"
+              placeholder="Dirección"
+              value={formData.address}
+              onChange={handleChange}
+              className="border px-4 py-2 rounded"
+            />
+            <input
+              required
+              name="city"
+              type="text"
+              placeholder="Ciudad"
+              value={formData.city}
+              onChange={handleChange}
+              className="border px-4 py-2 rounded"
+            />
+            <input
+              required
+              name="zip"
+              type="text"
+              placeholder="Código postal"
+              value={formData.zip}
+              onChange={handleChange}
+              className="border px-4 py-2 rounded"
+            />
+            <select
+              name="region"
+              value={formData.region}
+              onChange={handleChange}
+              className="border px-4 py-2 rounded"
+              required
+            >
+              <option value="">Selecciona tu comunidad autónoma</option>
+              <option value="Andalucía">Andalucía</option>
+              <option value="Aragón">Aragón</option>
+              <option value="Asturias">Asturias</option>
+              <option value="Islas Baleares">Islas Baleares</option>
+              <option value="Canarias">Canarias</option>
+              <option value="Cantabria">Cantabria</option>
+              <option value="Castilla-La Mancha">Castilla-La Mancha</option>
+              <option value="Castilla y León">Castilla y León</option>
+              <option value="Cataluña">Cataluña</option>
+              <option value="Extremadura">Extremadura</option>
+              <option value="Galicia">Galicia</option>
+              <option value="Madrid">Madrid</option>
+              <option value="Murcia">Murcia</option>
+              <option value="Navarra">Navarra</option>
+              <option value="La Rioja">La Rioja</option>
+              <option value="País Vasco">País Vasco</option>
+              <option value="Valencia">Valencia</option>
+            </select>
+            <textarea
+              name="note"
+              value={formData.note}
+              onChange={handleChange}
+              rows={3}
+              placeholder="Notas para el repartidor (opcional)"
+              className="border px-4 py-2 rounded resize-none"
+            ></textarea>
+          </div>
         </div>
 
         {/* Payment */}
@@ -121,10 +179,16 @@ export default function Checkout() {
               <span>{(item.price * item.quantity).toFixed(2)} €</span>
             </div>
           ))}
+
           <hr />
-          <div className="flex justify-between font-bold text-base">
+          <div className="flex justify-between text-sm text-gray-700">
+            <span>Envío</span>
+            <span>{shippingCost.toFixed(2)} €</span>
+          </div>
+
+          <div className="flex justify-between font-bold text-base mt-2">
             <span>Total</span>
-            <span>{cartTotal.toFixed(2)} €</span>
+            <span>{(cartTotal + shippingCost).toFixed(2)} €</span>
           </div>
         </div>
       </div>
