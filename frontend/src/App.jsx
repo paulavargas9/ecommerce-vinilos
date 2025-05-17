@@ -13,7 +13,7 @@ import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import OrderConfirmation from "./pages/OrderConfirmation";
 import PrivateRoute from "./components/PrivateRoute"; 
-
+import Login from "./pages/Login"; 
 
 
 export default function App() {
@@ -25,8 +25,8 @@ export default function App() {
       <div className="flex-grow">
       <Routes>
       <Route path="/order-confirmation" element={<OrderConfirmation />} />
-      <Route
-      path="/checkout"element={<PrivateRoute><Checkout /></PrivateRoute> }/>
+      <Route path="/checkout"element={<PrivateRoute><Checkout /></PrivateRoute> }/>
+      <Route path="/login" element={<Login />} />
       <Route path="/producto/:slug" element={<ProductDetail />} />
       <Route path="/shop/:categoria" element={<Category />} />
       <Route path="/carrito" element={<Cart />} />
