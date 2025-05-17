@@ -9,18 +9,11 @@ import { Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
 
-
-
-
-
-
 const  NavBar = () => {
     const[open, setOpen] = useState (false);
     const { cart } = useCart();
     const { user, logout } = useAuth();
     const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-
-
     return(
         <>
         <nav>
@@ -65,23 +58,30 @@ const  NavBar = () => {
             </button>
 
             {user ? (
-                <div className="hidden md:flex items-center gap-3">
+            <div className="hidden md:flex items-center gap-4">
+                <Link
+                to="/perfil"
+                className="text-sm text-gray-700 font-medium hover:underline"
+                >
+                Mi cuenta
+                </Link>
                 <span className="text-sm font-medium text-gray-700">Hola, {user.name}</span>
                 <button
-                    onClick={logout}
-                    className="text-sm text-red-600 hover:underline"
+                onClick={logout}
+                className="text-sm text-red-600 hover:underline"
                 >
-                    Cerrar sesión
+                Cerrar sesión
                 </button>
-                </div>
+            </div>
             ) : (
-                <Link
+            <Link
                 to="/login"
                 className="hover:bg-primary text-primary font-semibold hover:text-white rounded-md border-primary px-6 py-2 duration-200 hidden md:block"
-                >
+            >
                 INICIAR SESIÓN
-                </Link>
+            </Link>
             )}
+
             </div>
 
            {/*Mobile hamburguer section*/}
