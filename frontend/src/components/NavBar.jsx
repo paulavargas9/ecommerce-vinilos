@@ -7,6 +7,8 @@ import { useState } from "react";
 import ResponsiveMenu from './ResponsiveMenu';
 import { Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
+import { useAuth } from "../context/AuthContext";
+
 
 
 
@@ -15,6 +17,7 @@ import { useCart } from "../context/CartContext";
 const  NavBar = () => {
     const[open, setOpen] = useState (false);
     const { cart } = useCart();
+    const { user, logout } = useAuth();
     const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
 
 
@@ -43,29 +46,44 @@ const  NavBar = () => {
             </ul>      
          </div>
           {/*icons section section*/}
-                <div className='flex items-center gap-4'>
-                <button 
-                className='text-2xl hover:bg-primary hover:text-white rounded-full p-2 duration-200'>
-                    <CiSearch/>   
-                </button>
-                <Link to="/carrito" className="relative">
+          <div className='flex items-center gap-4'>
+            <button className='text-2xl hover:bg-primary hover:text-white rounded-full p-2 duration-200'>
+                <CiSearch />
+            </button>
+
+            <Link to="/carrito" className="relative">
                 <PiShoppingCartSimpleThin className="text-2xl" />
                 {totalItems > 0 && (
-                    <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">
+                <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">
                     {totalItems}
-                    </span>
+                </span>
                 )}
-                </Link>
-                <button 
-                className='text-2xl hover:bg-primary hover:text-white rounded-full p-2 duration-200'>
-                    <CiHeart/>   
-                </button>
-                <button className='hover:bg-primary text-primary font-semibold
-                hover:text-white rounded-md border-primary px-6 py-2 duration-200 hidden md:block'>
-                    INICIAR SESION
-                </button>
+            </Link>
 
+            <button className='text-2xl hover:bg-primary hover:text-white rounded-full p-2 duration-200'>
+                <CiHeart />
+            </button>
+
+            {user ? (
+                <div className="hidden md:flex items-center gap-3">
+                <span className="text-sm font-medium text-gray-700">Hola, {user.name}</span>
+                <button
+                    onClick={logout}
+                    className="text-sm text-red-600 hover:underline"
+                >
+                    Cerrar sesión
+                </button>
                 </div>
+            ) : (
+                <Link
+                to="/login"
+                className="hover:bg-primary text-primary font-semibold hover:text-white rounded-md border-primary px-6 py-2 duration-200 hidden md:block"
+                >
+                INICIAR SESIÓN
+                </Link>
+            )}
+            </div>
+
            {/*Mobile hamburguer section*/}
                 <div className="md:hidden">
                     <MdMenu 

@@ -22,7 +22,7 @@ export function AuthProvider({ children }) {
   const login = (email, password) => {
     //  la petición real al backend
     if (email === "admin@demo.com" && password === "1234") {
-      setUser({ email });
+        setUser({ email, name: "Paula" }); 
       return true;
     } else {
       return false;
