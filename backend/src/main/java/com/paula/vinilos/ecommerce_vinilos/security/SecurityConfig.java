@@ -13,12 +13,19 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.*;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+
 
 
 import java.util.List;
 
 @Configuration
 public class SecurityConfig {
+
+    @Autowired
+    private JwtAuthFilter jwtAuthFilter;
+
 
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
@@ -58,8 +65,8 @@ public class SecurityConfig {
     .httpBasic(basic -> basic.disable())
     .csrf(csrf -> csrf.disable())
     .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-    .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-
+    .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+    .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class); 
 
         return http.build();
     }   
