@@ -4,13 +4,16 @@ import com.paula.vinilos.ecommerce_vinilos.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
 import org.springframework.security.authentication.*;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.*;
+import org.springframework.http.HttpMethod;
+
 
 import java.util.List;
 
@@ -21,28 +24,47 @@ public class SecurityConfig {
     private UserDetailsServiceImpl userDetailsService;
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
-        return config.getAuthenticationManager();
+    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
+        return http.getSharedObject(AuthenticationManagerBuilder.class)
+                .authenticationProvider(daoAuthenticationProvider())
+                .build();
     }
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+    @Bean
+        public DaoAuthenticationProvider daoAuthenticationProvider() {
+            DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+            provider.setUserDetailsService(userDetailsService);
+            provider.setPasswordEncoder(passwordEncoder());
+            return provider;
+        }
+
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-            .csrf(csrf -> csrf.disable())
-            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/**").permitAll()
-                .anyRequest().authenticated()
-            )
-            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+    http
+        .csrf(csrf -> csrf.disable())
+        .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+        .authorizeHttpRequests(auth -> auth
+    .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
+    .requestMatchers(HttpMethod.POST, "/api/auth/register").permitAll()
+    .anyRequest().authenticated()
+    )
+    .formLogin(login -> login.disable())
+    .httpBasic(basic -> basic.disable())
+    .csrf(csrf -> csrf.disable())
+    .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+    .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+
 
         return http.build();
-    }
+    }   
+
+
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
