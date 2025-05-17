@@ -1,17 +1,16 @@
 import { useState } from "react";
-import { useAuth } from "../context/AuthContext";
 import { useNavigate, Navigate } from "react-router-dom";
-import { Link } from "react-router-dom"; 
+import { useAuth } from "../context/AuthContext";
 
-export default function Login() {
-  const { user, login } = useAuth();
+export default function Register() {
+  const { user } = useAuth();
   const navigate = useNavigate();
 
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
 
-  //  Si el usuario ya está logueado, lo redirigimos
+  // si ya está logueado, lo sacamos del registro
   if (user) {
     return <Navigate to="/" replace />;
   }
@@ -19,12 +18,11 @@ export default function Login() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const success = login(email, password);
-    if (success) {
-      navigate("/"); // Redirige al home tras login exitoso
-    } else {
-      setError("Email o contraseña incorrectos");
-    }
+    // simulación (luego se reemplaza con llamada al backend)
+    console.log("Usuario registrado:", { name, email, password });
+
+    // redirige al login para que pueda iniciar sesión
+    navigate("/login");
   };
 
   return (
@@ -33,14 +31,16 @@ export default function Login() {
         onSubmit={handleSubmit}
         className="bg-white p-8 rounded-lg shadow-md w-full max-w-md"
       >
-        <h2 className="text-2xl font-bold mb-6">Iniciar sesión</h2>
-        <p className="mt-4 text-sm text-center">
-        ¿No tienes cuenta?
-        <Link to="/register" className="text-primary hover:underline ml-1">
-            Regístrate aquí
-        </Link>
-        </p>
-        {error && <p className="text-red-600 mb-4">{error}</p>}
+        <h2 className="text-2xl font-bold mb-6">Crear cuenta</h2>
+
+        <label className="block mb-2 text-sm font-medium">Nombre</label>
+        <input
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          className="w-full p-2 border rounded mb-4"
+          required
+        />
 
         <label className="block mb-2 text-sm font-medium">Email</label>
         <input
@@ -64,7 +64,7 @@ export default function Login() {
           type="submit"
           className="w-full bg-black text-white py-2 rounded hover:opacity-90"
         >
-          Iniciar sesión
+          Registrarse
         </button>
       </form>
     </div>
