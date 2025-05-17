@@ -12,7 +12,7 @@ import { useAuth } from "../context/AuthContext";
 const  NavBar = () => {
     const[open, setOpen] = useState (false);
     const { cart } = useCart();
-    const { user, logout } = useAuth();
+    const { user, logout, isAuthenticated } = useAuth();
     const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
     return(
         <>
@@ -57,15 +57,9 @@ const  NavBar = () => {
                 <CiHeart />
             </button>
 
-            {user ? (
-            <div className="hidden md:flex items-center gap-4">
-                <Link
-                to="/perfil"
-                className="text-sm text-gray-700 font-medium hover:underline"
-                >
-                Mi cuenta
-                </Link>
-                <span className="text-sm font-medium text-gray-700">Hola, {user.name}</span>
+            {isAuthenticated ? (
+            <div className="hidden md:flex items-center gap-3">
+                <span className="text-sm font-medium text-gray-700">{user?.name}</span>
                 <button
                 onClick={logout}
                 className="text-sm text-red-600 hover:underline"
@@ -81,7 +75,6 @@ const  NavBar = () => {
                 INICIAR SESIÓN
             </Link>
             )}
-
             </div>
 
            {/*Mobile hamburguer section*/}
