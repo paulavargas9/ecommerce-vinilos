@@ -21,4 +21,8 @@ public class PedidoResponseDTO {
 
     public Long getUsuarioId() { return usuarioId; }
     public void setUsuarioId(Long usuarioId) { this.usuarioId = usuarioId; }
+    public Object getProductoId() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getProductoId'");
+    }
 }

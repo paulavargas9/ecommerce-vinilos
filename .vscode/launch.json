@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-EcommerceVinilosApplication<ecommerce-vinilos>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.paula.vinilos.ecommerce_vinilos.EcommerceVinilosApplication",
+            "projectName": "ecommerce-vinilos",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

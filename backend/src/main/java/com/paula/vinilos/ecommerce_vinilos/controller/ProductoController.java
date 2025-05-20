@@ -57,5 +57,10 @@ public class ProductoController {
         productoService.eliminarProducto(id);
         return ResponseBuilder.noContent("Producto eliminado correctamente");
     }
+
+    
+
+
+
     
 }

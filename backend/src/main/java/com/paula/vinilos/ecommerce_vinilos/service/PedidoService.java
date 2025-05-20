@@ -66,4 +66,11 @@ public class PedidoService implements IPedidoService {
         return pedidoRepository.findAll(pageable)
                 .map(pedidoMapper::toDto);
     }
+
+    @Override
+    public void guardarPedido(Pedido pedido) {
+        pedidoRepository.save(pedido);
+    }
+
+
 }

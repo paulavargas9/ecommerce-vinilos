@@ -23,39 +23,47 @@ public class JwtAuthFilter extends GenericFilter {
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
+    
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
-
+    
         HttpServletRequest httpReq = (HttpServletRequest) request;
+        String path = httpReq.getRequestURI();
+    
+        //  Evitar aplicar el filtro en rutas públicas como /api/auth/*
+        if (path.startsWith("/api/auth")) {
+            chain.doFilter(request, response);
+            return;
+        }
+    
         String authHeader = httpReq.getHeader("Authorization");
-
         String email = null;
         String token = null;
-
+    
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             token = authHeader.substring(7);
             try {
                 email = jwtUtil.extractUsername(token);
             } catch (ExpiredJwtException e) {
-                System.out.println(" Token expirado");
+                System.out.println("Token expirado");
             } catch (Exception e) {
-                System.out.println(" Token inválido");
+                System.out.println("Token inválido");
             }
         }
-
+    
         if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = userDetailsService.loadUserByUsername(email);
-
+    
             if (jwtUtil.validateToken(token, userDetails)) {
                 UsernamePasswordAuthenticationToken auth =
                         new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-
+    
                 auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpReq));
                 SecurityContextHolder.getContext().setAuthentication(auth);
             }
         }
-
+    
         chain.doFilter(request, response);
     }
 }

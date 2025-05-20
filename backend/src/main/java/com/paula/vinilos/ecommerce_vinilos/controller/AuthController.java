@@ -48,9 +48,10 @@ private UsuarioRepository usuarioRepository;
         UserDetails userDetails = userDetailsService.loadUserByUsername(request.getEmail());
         String token = jwtUtil.generateToken(userDetails);
 
+        Usuario usuario = usuarioRepository.findByEmail(request.getEmail()).orElseThrow();
         return ResponseEntity.ok(
-            new LoginResponse(token, userDetails.getUsername(), request.getEmail())
-        );
+        new LoginResponse(token, usuario.getNombre(), usuario.getEmail(), usuario.getId())
+);
 
     } catch (BadCredentialsException e) {
         return ResponseEntity.status(401).body("Email o contraseña incorrectos");
