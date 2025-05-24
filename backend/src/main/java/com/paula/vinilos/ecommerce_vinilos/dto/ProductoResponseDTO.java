@@ -8,6 +8,16 @@ public class ProductoResponseDTO {
     private Double precio;
     private Integer stock;
     private Long categoriaId;
+    private String categoriaNombre;
+
+        public String getCategoriaNombre() {
+            return categoriaNombre;
+        }
+
+        public void setCategoriaNombre(String categoriaNombre) {
+            this.categoriaNombre = categoriaNombre;
+        }
+            
 
     
     public Long getId() { return id; }

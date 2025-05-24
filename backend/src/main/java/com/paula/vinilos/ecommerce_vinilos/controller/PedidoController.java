@@ -105,6 +105,14 @@ public class PedidoController {
             Producto producto = productoRepository.findById(item.getProductoId())
             .orElseThrow(() -> new RuntimeException("Producto no encontrado: " + item.getProductoId()));
 
+        if (producto.getStock() < item.getCantidad()) {
+            throw new RuntimeException("No hay stock suficiente para el producto: " + producto.getNombre());
+        }
+                    // Validación de stock disponible
+        if (producto.getStock() < item.getCantidad()) {
+            throw new RuntimeException("Stock insuficiente para el producto: " + producto.getNombre());
+        }
+
         int nuevaCantidad = producto.getStock() - item.getCantidad();
         if (nuevaCantidad < 0) {
             throw new RuntimeException("Stock insuficiente para el producto: " + producto.getNombre());
