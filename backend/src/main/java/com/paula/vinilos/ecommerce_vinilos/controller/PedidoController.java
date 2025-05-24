@@ -101,14 +101,21 @@ public class PedidoController {
         List<DetallePedido> detalles = items.stream().map(item -> {
             DetallePedido detalle = new DetallePedido();
     
-            // ✅ Obtener producto real desde la base de datos
+            //  Obtener producto real desde la base de datos
             Producto producto = productoRepository.findById(item.getProductoId())
-                .orElseThrow(() -> new RuntimeException("Producto no encontrado: " + item.getProductoId()));
-    
-            detalle.setProducto(producto);
-            detalle.setCantidad(item.getCantidad());
-            detalle.setPrecioUnitario(item.getPrecio());
-            detalle.setPedido(pedido);
+            .orElseThrow(() -> new RuntimeException("Producto no encontrado: " + item.getProductoId()));
+
+        int nuevaCantidad = producto.getStock() - item.getCantidad();
+        if (nuevaCantidad < 0) {
+            throw new RuntimeException("Stock insuficiente para el producto: " + producto.getNombre());
+        }
+
+                producto.setStock(nuevaCantidad);
+                productoRepository.save(producto); 
+                detalle.setProducto(producto);
+                detalle.setCantidad(item.getCantidad());
+                detalle.setPrecioUnitario(item.getPrecio());
+                detalle.setPedido(pedido);
     
             return detalle;
         }).toList();
