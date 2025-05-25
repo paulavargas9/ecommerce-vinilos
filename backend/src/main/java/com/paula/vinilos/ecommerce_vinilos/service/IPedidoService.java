@@ -2,6 +2,7 @@ package com.paula.vinilos.ecommerce_vinilos.service;
 
 import com.paula.vinilos.ecommerce_vinilos.dto.PedidoRequestDTO;
 import com.paula.vinilos.ecommerce_vinilos.dto.PedidoResponseDTO;
+import com.paula.vinilos.ecommerce_vinilos.dto.PedidoResumenDTO;
 import com.paula.vinilos.ecommerce_vinilos.model.Pedido;
 
 import org.springframework.data.domain.Page;
@@ -18,6 +19,7 @@ public interface IPedidoService {
     Page<PedidoResponseDTO> getPedidosPaginados(Pageable pageable);  // Paginación
 
     void guardarPedido(Pedido pedido);
+    List<PedidoResumenDTO> getPedidosPorUsuario(String email);
 
 
 }

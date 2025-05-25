@@ -14,6 +14,18 @@ public class Categoria implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, unique = true)
+    private String slug;
+
+    public String getSlug() {
+        return slug;
+    }
+    
+    public void setSlug(String slug) {
+        this.slug = slug;
+    }
+
+
     @NotBlank(message = "El nombre de la categoría no puede estar vacío")
     private String nombre;
 

@@ -34,6 +34,13 @@ public class Producto implements Serializable {
     @JoinColumn(name = "categoria_id")
     private Categoria categoria;
 
+    @NotBlank(message = "El slug no puede estar vacío")
+    @Column(unique = true)
+    private String slug;
+
+    public String getSlug() { return slug; }
+    public void setSlug(String slug) { this.slug = slug; }
+
     public Producto() {}
 
     public Producto(Long id) {

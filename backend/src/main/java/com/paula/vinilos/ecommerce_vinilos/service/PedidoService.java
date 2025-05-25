@@ -6,6 +6,10 @@ import com.paula.vinilos.ecommerce_vinilos.exception.PedidoNotFoundException;
 import com.paula.vinilos.ecommerce_vinilos.mapper.PedidoMapper;
 import com.paula.vinilos.ecommerce_vinilos.model.Pedido;
 import com.paula.vinilos.ecommerce_vinilos.repository.PedidoRepository;
+import com.paula.vinilos.ecommerce_vinilos.repository.UsuarioRepository;
+import com.paula.vinilos.ecommerce_vinilos.dto.PedidoResumenDTO;
+import com.paula.vinilos.ecommerce_vinilos.dto.ItemPedidoDTO;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,6 +26,10 @@ public class PedidoService implements IPedidoService {
 
     @Autowired
     private PedidoMapper pedidoMapper;
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
 
     @Override
     public List<PedidoResponseDTO> getAllPedidos() {
@@ -71,6 +79,36 @@ public class PedidoService implements IPedidoService {
     public void guardarPedido(Pedido pedido) {
         pedidoRepository.save(pedido);
     }
+
+    public List<PedidoResumenDTO> getPedidosPorUsuario(String email) {
+        var usuario = usuarioRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+    
+        var pedidos = pedidoRepository.findByUsuario(usuario);
+    
+        return pedidos.stream().map(pedido -> {
+            PedidoResumenDTO dto = new PedidoResumenDTO();
+            dto.setFecha(pedido.getFecha().toLocalDate());
+            dto.setTotal(pedido.getTotal());
+            dto.setEstado("Completado"); // Opcional: simulado
+    
+            List<ItemPedidoDTO> items = pedido.getDetalles().stream().map(detalle -> {
+                ItemPedidoDTO item = new ItemPedidoDTO();
+                item.setNombreProducto(detalle.getProducto().getNombre());
+                item.setCantidad(detalle.getCantidad());
+                item.setPrecio(detalle.getPrecioUnitario()); 
+
+                return item;
+            }).toList();
+    
+            dto.setItems(items);
+            return dto;
+        }).toList();
+    }
+    
+
+
+
 
 
 }

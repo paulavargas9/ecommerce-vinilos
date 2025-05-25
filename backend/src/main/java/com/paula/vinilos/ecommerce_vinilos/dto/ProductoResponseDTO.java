@@ -9,13 +9,19 @@ public class ProductoResponseDTO {
     private Integer stock;
     private Long categoriaId;
     private String categoriaNombre;
+    private String categoriaSlug;
+    private String slug; // este es el slug del producto
 
-        public String getCategoriaNombre() {
-            return categoriaNombre;
+        public String getSlug() { return slug; }
+    public void setSlug(String slug) { this.slug = slug; }
+
+    public String getCategoriaSlug() { return categoriaSlug; }
+    public void setCategoriaSlug(String categoriaSlug) { this.categoriaSlug = categoriaSlug; }  
+    public String getCategoriaNombre() {     
+        return categoriaNombre;
         }
-
-        public void setCategoriaNombre(String categoriaNombre) {
-            this.categoriaNombre = categoriaNombre;
+    public void setCategoriaNombre(String categoriaNombre) {
+        this.categoriaNombre = categoriaNombre;
         }
             
 

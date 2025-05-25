@@ -1,6 +1,7 @@
 package com.paula.vinilos.ecommerce_vinilos.controller;
 import com.paula.vinilos.ecommerce_vinilos.dto.PedidoRequestDTO;
 import com.paula.vinilos.ecommerce_vinilos.dto.PedidoResponseDTO;
+import com.paula.vinilos.ecommerce_vinilos.dto.PedidoResumenDTO;
 import com.paula.vinilos.ecommerce_vinilos.model.DetallePedido;
 import com.paula.vinilos.ecommerce_vinilos.model.Pedido;
 import com.paula.vinilos.ecommerce_vinilos.model.Producto;
@@ -10,7 +11,6 @@ import com.paula.vinilos.ecommerce_vinilos.repository.UsuarioRepository;
 import com.paula.vinilos.ecommerce_vinilos.response.ApiResponse;
 import com.paula.vinilos.ecommerce_vinilos.response.ResponseBuilder;
 import com.paula.vinilos.ecommerce_vinilos.service.IPedidoService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -20,7 +20,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import com.paula.vinilos.ecommerce_vinilos.dto.ItemDTO;
 import com.paula.vinilos.ecommerce_vinilos.dto.CheckoutRequest;
+import com.paula.vinilos.ecommerce_vinilos.security.JwtService;
 
+
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
 import java.time.LocalDateTime;
@@ -30,6 +33,11 @@ import java.util.List;
 @RequestMapping("/api/pedidos")
 @CrossOrigin(origins = "*")
 public class PedidoController {
+
+
+    @Autowired
+    private JwtService jwtService;
+
 
     @Autowired
     private IPedidoService pedidoService;
@@ -136,11 +144,12 @@ public class PedidoController {
         return ResponseBuilder.ok("Pedido registrado correctamente", "OK");
     }
     
-
-
-
-
-
+    @GetMapping("/mis-pedidos")
+public ResponseEntity<List<PedidoResumenDTO>> getMisPedidos(HttpServletRequest request) {
+    String email = jwtService.extractEmail(request); // extraer email desde token
+    List<PedidoResumenDTO> pedidos = pedidoService.getPedidosPorUsuario(email);
+    return ResponseEntity.ok(pedidos);
+}
 
     
 }

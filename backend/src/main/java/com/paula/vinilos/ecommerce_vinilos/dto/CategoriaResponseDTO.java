@@ -5,7 +5,10 @@ public class CategoriaResponseDTO {
     private Long id;
     private String nombre;
     private String descripcion;
+    private String slug;
 
+    public String getSlug() { return slug; }
+    public void setSlug(String slug) { this.slug = slug; }
    
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
