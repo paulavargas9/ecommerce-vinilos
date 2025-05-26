@@ -16,6 +16,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import Login from "./pages/Login"; 
 import Register from "./pages/Register";
 import Perfil from "./pages/Perfil";
+import Favoritos from "./pages/Favoritos";
 
 
 export default function App() {
@@ -26,6 +27,7 @@ export default function App() {
       <NavBar />
       <div className="flex-grow">
       <Routes>
+      <Route path="/favoritos" element={<Favoritos />} />
       <Route path="/perfil" element={<PrivateRoute><Perfil /></PrivateRoute>}/>
       <Route path="/register" element={<Register />} />
       <Route path="/order-confirmation" element={<OrderConfirmation />} />

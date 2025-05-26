@@ -6,7 +6,7 @@ export default function Checkout() {
   const { cart, cartTotal, clearCart } = useCart();
   const shippingCost = 2.99;
   const navigate = useNavigate();
-
+  const [errorCheckout, setErrorCheckout] = useState("");
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -28,23 +28,23 @@ export default function Checkout() {
 
   const confirmarPedido = async () => {
     const token = localStorage.getItem("token");
-
-    if (!token) {
-      alert("Debes iniciar sesión para realizar el pedido.");
+    const user = JSON.parse(localStorage.getItem("user"));
+  
+    if (!token || !user) {
+      setErrorCheckout("Debes iniciar sesión para realizar el pedido.");
       return;
     }
-
+  
     const pedidoData = {
-      direccion: `${formData.address}, ${formData.city}, ${formData.zip}, ${formData.region}`,
+      direccion: formData.address,
       total: cartTotal + shippingCost,
       items: cart.map((item) => ({
         productoId: item.id,
-        nombre: item.title,
         cantidad: item.quantity,
         precio: item.price,
       })),
     };
-
+  
     try {
       const res = await fetch("http://localhost:8082/api/pedidos/checkout", {
         method: "POST",
@@ -54,20 +54,19 @@ export default function Checkout() {
         },
         body: JSON.stringify(pedidoData),
       });
-
+  
       if (!res.ok) {
-        const errorText = await res.text();
-        throw new Error(errorText || "Error al registrar el pedido");
+        const data = await res.json();
+        setErrorCheckout(data.message || "Error al registrar el pedido.");
+        return;
       }
-
-      const data = await res.json();
-      console.log("✅ Pedido creado:", data);
-
+  
       clearCart();
+      setErrorCheckout(""); // limpiamos mensaje si fue exitoso
       navigate("/order-confirmation");
     } catch (err) {
+      setErrorCheckout("Error de red o del servidor. Intenta más tarde.");
       console.error("❌ Error al crear pedido:", err);
-      alert("No se pudo registrar el pedido. Intenta nuevamente.");
     }
   };
 
@@ -149,28 +148,36 @@ export default function Checkout() {
           className="bg-primary text-white px-6 py-3 rounded hover:bg-white hover:text-primary border border-primary transition">
           Confirmar pedido
         </button>
-      </form>
 
+        {errorCheckout && (
+        <p className="text-red-600 mt-4 text-sm font-medium">
+          {errorCheckout}
+        </p>
+      )}
+
+      </form>
+     
       <div className="bg-gray-50 p-6 rounded-lg shadow-md">
-        <h2 className="text-xl font-semibold mb-4">Resumen del pedido</h2>
-        <div className="space-y-4 text-sm">
-          {cart.map((item) => (
-            <div key={item.id} className="flex justify-between">
-              <span>{item.title} × {item.quantity}</span>
-              <span>{(item.price * item.quantity).toFixed(2)} €</span>
-            </div>
-          ))}
-          <hr />
-          <div className="flex justify-between text-sm text-gray-700">
-            <span>Envío</span>
-            <span>{shippingCost.toFixed(2)} €</span>
-          </div>
-          <div className="flex justify-between font-bold text-base mt-2">
-            <span>Total</span>
-            <span>{(cartTotal + shippingCost).toFixed(2)} €</span>
-          </div>
-        </div>
+  <h2 className="text-xl font-semibold mb-4">Resumen del pedido</h2>
+  <div className="space-y-4 text-sm">
+    {cart.map((item) => (
+      <div key={item.id} className="flex justify-between">
+        <span>{item.nombre} × {item.quantity}</span>
+        <span>{(item.precio * item.quantity).toFixed(2)} €</span>
       </div>
+    ))}
+    <hr />
+    <div className="flex justify-between text-sm text-gray-700">
+      <span>Envío</span>
+      <span>{shippingCost.toFixed(2)} €</span>
+    </div>
+    <div className="flex justify-between font-bold text-base mt-2">
+      <span>Total</span>
+      <span>{(cartTotal + shippingCost).toFixed(2)} €</span>
+    </div>
+  </div>
+</div>
+
     </div>
   );
 }

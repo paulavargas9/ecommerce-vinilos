@@ -3,7 +3,7 @@ export const navbarLinks = [
 {
     id:1,
     title:"Inicio",
-    link:"/"
+    link:"/home"
 
 },
 
@@ -18,7 +18,7 @@ export const navbarLinks = [
 {
     id:3,
     title:"Contacto",
-    link:"#"
+    link:"/contact"
 
 },
 

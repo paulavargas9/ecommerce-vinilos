@@ -24,10 +24,10 @@ export default function Cart() {
               >
                 {/* Imagen + nombre */}
                 <div className="flex items-center gap-4 w-full md:w-[40%]">
-                  <img src={item.img} alt={item.title} className="w-16 h-16 rounded-md" />
+                  <img src={item.img} alt={item.nombre} className="w-16 h-16 rounded-md" />
                   <div>
-                    <h2 className="font-semibold">{item.title}</h2>
-                    <p className="text-sm text-gray-600">{item.price.toFixed(2)} € / unidad</p>
+                    <h2 className="font-semibold">{item.nombre}</h2>
+                    <p className="text-sm text-gray-600">{item.precio.toFixed(2)} € / unidad</p>
                   </div>
                 </div>
 
@@ -50,7 +50,7 @@ export default function Cart() {
 
                 {/* Subtotal */}
                 <div className="text-sm font-medium">
-                  Subtotal: {(item.price * item.quantity).toFixed(2)} €
+                  Subtotal: {(item.precio * item.quantity).toFixed(2)} €
                 </div>
 
                 {/* Eliminar */}
@@ -90,15 +90,15 @@ export default function Cart() {
           <hr className="my-4" />
 
           <p className="text-lg font-bold mb-4">
-            Total: {(cartTotal + 2.99).toFixed(2)} €
+            Total: {((cartTotal || 0) + 2.99).toFixed(2)} €
           </p>
 
           <button
             onClick={() => navigate("/checkout")}
             className="w-full bg-primary text-white py-2 rounded hover:bg-white hover:text-primary border border-primary transition"
-            >
+          >
             Proceder al pago
-            </button>
+          </button>
         </div>
       )}
     </div>

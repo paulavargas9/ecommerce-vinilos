@@ -1,27 +1,23 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 
-
-
-// 1. contexto
+// 1. Contexto
 const CartContext = createContext();
 
 // 2. Hook 
 export const useCart = () => useContext(CartContext);
 
-// 3. proveedor del contexto
+// 3. Proveedor del contexto
 export function CartProvider({ children }) {
-    const [cart, setCart] = useState(() => {
-        const saved = localStorage.getItem("cart");
-        return saved ? JSON.parse(saved) : [];
-      });
+  const [cart, setCart] = useState(() => {
+    const saved = localStorage.getItem("cart");
+    return saved ? JSON.parse(saved) : [];
+  });
 
-      
-    useEffect(() => {
+  useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
 
-      
-  //  añadir discos al carrito
+  // Añadir producto al carrito
   const addToCart = (product, quantity = 1) => {
     const exists = cart.find((item) => item.id === product.id);
     if (exists) {
@@ -34,9 +30,8 @@ export function CartProvider({ children }) {
       setCart([...cart, { ...product, quantity }]);
     }
   };
-  
 
-  // eliminar del carrito
+  // Eliminar producto
   const removeFromCart = (productId) => {
     setCart(cart.filter((item) => item.id !== productId));
   };
@@ -51,7 +46,7 @@ export function CartProvider({ children }) {
       )
     );
   };
-  
+
   const decrementItem = (id) => {
     setCart(cart =>
       cart.map(item =>
@@ -60,25 +55,23 @@ export function CartProvider({ children }) {
       )
     );
   };
-  
 
-  // Total
-  const cartTotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  // Total usando `precio`
+  const cartTotal = cart.reduce((sum, item) => sum + item.precio * item.quantity, 0);
 
   return (
     <CartContext.Provider
-  value={{
-    cart,
-    addToCart,
-    removeFromCart,
-    clearCart,
-    cartTotal,
-    incrementItem, 
-    decrementItem, 
-  }}
->
-  {children}
-</CartContext.Provider>
-
+      value={{
+        cart,
+        addToCart,
+        removeFromCart,
+        clearCart,
+        cartTotal,
+        incrementItem,
+        decrementItem,
+      }}
+    >
+      {children}
+    </CartContext.Provider>
   );
 }

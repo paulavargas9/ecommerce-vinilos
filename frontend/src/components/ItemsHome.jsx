@@ -7,10 +7,13 @@ import cat5 from "../assets/macMiller.jpg"
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { Link } from "react-router-dom";
+import { useProducts } from "../hooks/useProducts";
 
 
 
 const Items =() => {
+
+    const { products, loading, error } = useProducts();
 
  useEffect(() =>{
         AOS.init({
