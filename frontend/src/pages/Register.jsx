@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate, Navigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
+
 export default function Register() {
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -9,20 +10,41 @@ export default function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-  // si ya está logueado, lo sacamos del registro
   if (user) {
     return <Navigate to="/" replace />;
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // simulación (luego se reemplaza con llamada al backend)
-    console.log("Usuario registrado:", { name, email, password });
+    const payload = {
+      nombre: name,
+      email,
+      password,
+      rol: "USER"
+    };
 
-    // redirige al login para que pueda iniciar sesión
-    navigate("/login");
+    try {
+      const res = await fetch("http://localhost:8082/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+
+      if (!res.ok) {
+        const data = await res.text();
+        setError(data || "Ocurrió un error");
+        return;
+      }
+
+      // Redirigir al login tras éxito
+      navigate("/login", { state: { registered: true } });
+    } catch (err) {
+      setError("Error de red o del servidor.");
+      console.error("Registro fallido:", err);
+    }
   };
 
   return (
@@ -66,6 +88,10 @@ export default function Register() {
         >
           Registrarse
         </button>
+
+        {error && (
+          <p className="text-red-600 text-sm mt-4">{error}</p>
+        )}
       </form>
     </div>
   );

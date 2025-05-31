@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { useLocation } from "react-router-dom";
 
 
 export default function Login() {
@@ -9,6 +10,8 @@ export default function Login() {
   const [error, setError] = useState(null);
   const { setToken, setUser } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+const registered = location.state?.registered;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -42,6 +45,13 @@ export default function Login() {
   return (
     <div className="p-6 max-w-md mx-auto">
       <h2 className="text-2xl font-bold mb-4">Iniciar sesión</h2>
+
+      {registered && (
+      <p className="text-green-600 text-sm mb-4">
+        Cuenta creada correctamente. ¡Inicia sesión!
+      </p>
+    )}
+
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <input

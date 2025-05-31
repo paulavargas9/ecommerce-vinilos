@@ -9,7 +9,7 @@ export default function Cart() {
 
   return (
     <div className="p-6 md:p-10 grid md:grid-cols-3 gap-10">
-      {/*  PRODUCTOS */}
+      {/* PRODUCTOS */}
       <div className="md:col-span-2">
         <h1 className="text-3xl font-bold mb-6">Tu carrito</h1>
 
@@ -17,51 +17,56 @@ export default function Cart() {
           <p className="text-gray-500">El carrito está vacío.</p>
         ) : (
           <div className="space-y-6">
-            {cart.map((item) => (
-              <div
-                key={item.id}
-                className="flex flex-col md:flex-row justify-between items-center border-b pb-4 gap-6"
-              >
-                {/* Imagen + nombre */}
-                <div className="flex items-center gap-4 w-full md:w-[40%]">
-                  <img src={item.img} alt={item.nombre} className="w-16 h-16 rounded-md" />
-                  <div>
-                    <h2 className="font-semibold">{item.nombre}</h2>
-                    <p className="text-sm text-gray-600">{item.precio.toFixed(2)} € / unidad</p>
-                  </div>
-                </div>
-
-                {/* Cantidad */}
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => decrementItem(item.id)}
-                    className="px-2 py-1 border rounded hover:bg-gray-200"
-                  >
-                    <FaMinus />
-                  </button>
-                  <span className="px-3">{item.quantity}</span>
-                  <button
-                    onClick={() => incrementItem(item.id)}
-                    className="px-2 py-1 border rounded hover:bg-gray-200"
-                  >
-                    <FaPlus />
-                  </button>
-                </div>
-
-                {/* Subtotal */}
-                <div className="text-sm font-medium">
-                  Subtotal: {(item.precio * item.quantity).toFixed(2)} €
-                </div>
-
-                {/* Eliminar */}
-                <button
-                  onClick={() => removeFromCart(item.id)}
-                  className="text-red-600 hover:underline text-sm"
+            {cart.map((item) => {
+              const precio = item.precio ?? 0; // fallback si no viene definido
+              return (
+                <div
+                  key={item.id}
+                  className="flex flex-col md:flex-row justify-between items-center border-b pb-4 gap-6"
                 >
-                  <FaTrash />
-                </button>
-              </div>
-            ))}
+                  {/* Imagen + nombre */}
+                  <div className="flex items-center gap-4 w-full md:w-[40%]">
+                    <img src={item.img} alt={item.nombre} className="w-16 h-16 rounded-md" />
+                    <div>
+                      <h2 className="font-semibold">{item.nombre}</h2>
+                      <p className="text-sm text-gray-600">
+                        {precio.toFixed(2)} € / unidad
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Cantidad */}
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => decrementItem(item.id)}
+                      className="px-2 py-1 border rounded hover:bg-gray-200"
+                    >
+                      <FaMinus />
+                    </button>
+                    <span className="px-3">{item.quantity}</span>
+                    <button
+                      onClick={() => incrementItem(item.id)}
+                      className="px-2 py-1 border rounded hover:bg-gray-200"
+                    >
+                      <FaPlus />
+                    </button>
+                  </div>
+
+                  {/* Subtotal */}
+                  <div className="text-sm font-medium">
+                    Subtotal: {(precio * item.quantity).toFixed(2)} €
+                  </div>
+
+                  {/* Eliminar */}
+                  <button
+                    onClick={() => removeFromCart(item.id)}
+                    className="text-red-600 hover:underline text-sm"
+                  >
+                    <FaTrash />
+                  </button>
+                </div>
+              );
+            })}
 
             <button
               onClick={clearCart}
@@ -73,7 +78,7 @@ export default function Cart() {
         )}
       </div>
 
-      {/*  RESUMEN */}
+      {/* RESUMEN */}
       {cart.length > 0 && (
         <div className="bg-gray-50 p-6 rounded-lg shadow-md">
           <h2 className="text-xl font-semibold mb-4">Resumen</h2>

@@ -18,7 +18,7 @@ import Register from "./pages/Register";
 import Perfil from "./pages/Perfil";
 import Favoritos from "./pages/Favoritos";
 import Success from "./pages/Success";
-
+import Admin from "./pages/Admin"; 
 
 
 export default function App() {
@@ -29,6 +29,7 @@ export default function App() {
       <NavBar />
       <div className="flex-grow">
       <Routes>
+      <Route path="/admin" element={<Admin/>} />
       <Route path="/checkout/exito" element={<Success />} />
       <Route path="/favoritos" element={<Favoritos />} />
       <Route path="/perfil" element={<PrivateRoute><Perfil /></PrivateRoute>}/>

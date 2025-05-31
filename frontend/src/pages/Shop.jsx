@@ -44,7 +44,7 @@ export default function Shop() {
       ) : error ? (
         <p className="text-red-600">Error: {error}</p>
       ) : mostrarGeneros ? (
-        // ✅ Mostrar GÉNEROS si no hay texto en el buscador
+        // Mostrar GÉNEROS si no hay texto en el buscador
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {genres.map((genre) => (
             <Link
@@ -59,7 +59,7 @@ export default function Shop() {
       ) : productosFiltrados.length === 0 ? (
         <p>No hay resultados para tu búsqueda.</p>
       ) : (
-        // ✅ Mostrar productos si hay texto de búsqueda
+        // Mostrar productos si hay texto de búsqueda
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {productosFiltrados.map((producto) => (
             <Link
