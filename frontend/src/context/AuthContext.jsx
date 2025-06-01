@@ -12,7 +12,6 @@ export function AuthProvider({ children }) {
 
   const isAuthenticated = !!token;
 
-  
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
     const storedUser = localStorage.getItem("user");
@@ -22,7 +21,6 @@ export function AuthProvider({ children }) {
       setUser(JSON.parse(storedUser));
     }
   }, []);
-
 
   const logout = () => {
     localStorage.removeItem("token");

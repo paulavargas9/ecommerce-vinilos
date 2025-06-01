@@ -30,13 +30,15 @@ const registered = location.state?.registered;
 
       const data = await res.json();
       setToken(data.token);
-      setUser({ name: data.name, email: data.email });
-      // ✅ Guardar en localStorage
+      setUser({ name: data.name, email: data.email, rol: data.rol });
       localStorage.setItem("token", data.token);
-      localStorage.setItem("user", JSON.stringify({ name: data.name, email: data.email }));
-
-      // ✅ Redirigir
-      navigate("/perfil");
+      localStorage.setItem("user", JSON.stringify({ name: data.name, email: data.email, rol: data.rol }));
+      if (data.rol === "ADMIN") {
+        navigate("/admin/dashboard");
+      } else {
+        navigate("/perfil");
+      }
+      
     } catch (err) {
       setError(err.message);
     }

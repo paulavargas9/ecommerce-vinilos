@@ -18,18 +18,33 @@ import Register from "./pages/Register";
 import Perfil from "./pages/Perfil";
 import Favoritos from "./pages/Favoritos";
 import Success from "./pages/Success";
-import Admin from "./pages/Admin"; 
+import AdminRoute from "./routes/AdminRoute"; 
+import Admin from "./pages/admin/Admin";
+import Dashboard from "./pages/admin/Dashboard";
+import AdminProductos from "./pages/admin/AdminProductos";
+import AdminUsuarios from "./pages/admin/AdminUsuarios";
+import AdminPedidos from "./pages/admin/AdminPedidos";
+
+
+
 
 
 export default function App() {
-  const { cart, addToCart } = useCart(); // PRUEBA RECUERDA QUITARLO
-  console.log("Carrito actual:", cart);  // PRUEBA RECUERDA QUITARLO
+
   return (
     <div className="min-h-screen flex flex-col">
       <NavBar />
       <div className="flex-grow">
       <Routes>
-      <Route path="/admin" element={<Admin/>} />
+      <Route path="/admin" element={<AdminRoute />}>
+      <Route element={<Admin />}>
+        <Route index element={<Dashboard />} />
+        <Route path="dashboard" element={<Dashboard />} />
+        <Route path="productos" element={<AdminProductos />} />
+        <Route path="usuarios" element={<AdminUsuarios />} />
+        <Route path="pedidos" element={<AdminPedidos />} />
+      </Route>
+    </Route>
       <Route path="/checkout/exito" element={<Success />} />
       <Route path="/favoritos" element={<Favoritos />} />
       <Route path="/perfil" element={<PrivateRoute><Perfil /></PrivateRoute>}/>
