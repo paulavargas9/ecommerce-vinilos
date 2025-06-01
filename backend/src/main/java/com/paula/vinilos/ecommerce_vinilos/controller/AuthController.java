@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin(origins = "http://localhost:5173") // Permitir acceso React
+@CrossOrigin(origins = "http://localhost:5177") // Permitir acceso React
 public class AuthController {
 
     @Autowired
@@ -50,8 +50,9 @@ private UsuarioRepository usuarioRepository;
 
         Usuario usuario = usuarioRepository.findByEmail(request.getEmail()).orElseThrow();
         return ResponseEntity.ok(
-        new LoginResponse(token, usuario.getNombre(), usuario.getEmail(), usuario.getId())
+    new LoginResponse(token, usuario.getNombre(), usuario.getEmail(), usuario.getId(), usuario.getRol())
 );
+
 
     } catch (BadCredentialsException e) {
         return ResponseEntity.status(401).body("Email o contraseña incorrectos");

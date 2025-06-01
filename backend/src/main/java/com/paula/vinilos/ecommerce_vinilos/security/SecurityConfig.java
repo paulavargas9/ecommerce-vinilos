@@ -67,7 +67,7 @@ public CorsConfigurationSource corsConfigurationSource() {
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-            .requestMatchers("/api/auth/login", "/api/auth/register", "/api/productos").permitAll()
+            .requestMatchers("/api/auth/login", "/api/auth/register", "/api/productos" , "/api/auth/**", "/api/stripe/**").permitAll()
                 .anyRequest().authenticated()
             )
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
