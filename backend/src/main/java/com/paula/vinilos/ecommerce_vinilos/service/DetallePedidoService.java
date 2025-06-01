@@ -65,4 +65,16 @@ public class DetallePedidoService implements IDetallePedidoService {
         return detallePedidoRepository.findAll(pageable)
                 .map(detallePedidoMapper::toDto);
     }
+
+    @Override
+public List<DetallePedidoResponseDTO> getDetallesPorPedidoId(Long pedidoId) {
+    List<DetallePedido> detalles = detallePedidoRepository.findByPedidoId(pedidoId);
+    return detalles.stream()
+            .map(detallePedidoMapper::toDto)
+            .collect(Collectors.toList());
+}
+
+
+
+
 }

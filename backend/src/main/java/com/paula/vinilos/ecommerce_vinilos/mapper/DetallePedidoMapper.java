@@ -28,6 +28,7 @@ public class DetallePedidoMapper {
         dto.setId(detallePedido.getId());
         dto.setCantidad(detallePedido.getCantidad());
         dto.setPrecioUnitario(detallePedido.getPrecioUnitario());
+        dto.setNombreProducto(detallePedido.getProducto().getNombre()); 
         if (detallePedido.getProducto() != null) {
             dto.setProductoId(detallePedido.getProducto().getId());
         }

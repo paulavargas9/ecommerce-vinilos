@@ -9,7 +9,6 @@ public class PedidoResponseDTO {
     private Double total;
     private Long usuarioId;
 
-    
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -21,8 +20,4 @@ public class PedidoResponseDTO {
 
     public Long getUsuarioId() { return usuarioId; }
     public void setUsuarioId(Long usuarioId) { this.usuarioId = usuarioId; }
-    public Object getProductoId() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getProductoId'");
-    }
 }

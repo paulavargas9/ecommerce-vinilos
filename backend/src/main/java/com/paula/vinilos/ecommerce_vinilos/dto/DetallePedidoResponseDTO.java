@@ -7,7 +7,16 @@ public class DetallePedidoResponseDTO {
     private Double precioUnitario;
     private Long productoId;
     private Long pedidoId;
+    private String nombreProducto;
 
+
+    public String getNombreProducto() {
+        return nombreProducto;
+    }
+    
+    public void setNombreProducto(String nombreProducto) {
+        this.nombreProducto = nombreProducto;
+    }
     
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }

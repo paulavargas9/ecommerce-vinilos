@@ -14,4 +14,6 @@ public interface IDetallePedidoService {
     DetallePedidoResponseDTO actualizarDetallePedido(Long id, DetallePedidoRequestDTO dto);
     void eliminarDetallePedido(Long id);
     Page<DetallePedidoResponseDTO> getDetallePedidosPaginados(Pageable pageable);  // Paginación
+    List<DetallePedidoResponseDTO> getDetallesPorPedidoId(Long pedidoId);
+
 }

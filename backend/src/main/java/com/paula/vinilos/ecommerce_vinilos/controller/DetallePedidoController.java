@@ -60,4 +60,11 @@ public class DetallePedidoController {
         detallePedidoService.eliminarDetallePedido(id);
         return ResponseBuilder.noContent("Detalle de pedido eliminado correctamente");
     }
+
+    @GetMapping("/pedido/{pedidoId}")
+public ResponseEntity<ApiResponse<List<DetallePedidoResponseDTO>>> getDetallesPorPedidoId(@PathVariable Long pedidoId) {
+    List<DetallePedidoResponseDTO> detalles = detallePedidoService.getDetallesPorPedidoId(pedidoId);
+    return ResponseBuilder.ok("Detalles del pedido obtenidos correctamente", detalles);
+}
+
 }
