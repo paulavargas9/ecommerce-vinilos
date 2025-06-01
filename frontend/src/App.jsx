@@ -24,8 +24,7 @@ import Dashboard from "./pages/admin/Dashboard";
 import AdminProductos from "./pages/admin/AdminProductos";
 import AdminUsuarios from "./pages/admin/AdminUsuarios";
 import AdminPedidos from "./pages/admin/AdminPedidos";
-
-
+import PedidoDetalle from "./pages/admin/PedidoDetalle";
 
 
 
@@ -38,6 +37,7 @@ export default function App() {
       <Routes>
       <Route path="/admin" element={<AdminRoute />}>
       <Route element={<Admin />}>
+        <Route path="pedidos/:id" element={<PedidoDetalle />} />
         <Route index element={<Dashboard />} />
         <Route path="dashboard" element={<Dashboard />} />
         <Route path="productos" element={<AdminProductos />} />

@@ -53,7 +53,7 @@ export default function Checkout() {
 
     if (!token || !user) {
       setErrorCheckout("Debes iniciar sesión para realizar el pedido.");
-      return;
+      return false;
     }
 
     const pedidoData = {
@@ -80,18 +80,21 @@ export default function Checkout() {
         const text = await res.text();
         const data = text ? JSON.parse(text) : {};
         setErrorCheckout(data.message || "Error al registrar el pedido.");
-        return;
+        return false;
       }
 
-      clearCart();
-      navigate("/checkout/exito");
+      return true;
     } catch (err) {
       setErrorCheckout("Error al registrar el pedido.");
-      console.error("❌", err);
+      console.error("error", err);
+      return false;
     }
   };
 
   const handleStripeCheckout = async () => {
+    const pedidoRegistrado = await confirmarPedido();
+    if (!pedidoRegistrado) return;
+
     const stripe = await stripePromise;
     const totalEnCentimos = Math.round((cartTotal + shippingCost) * 100);
 
@@ -105,6 +108,7 @@ export default function Checkout() {
     const data = text ? JSON.parse(text) : {};
 
     if (data.id) {
+      clearCart();
       await stripe.redirectToCheckout({ sessionId: data.id });
     } else {
       alert("Error con Stripe");

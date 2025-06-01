@@ -116,7 +116,7 @@ export default function AdminProductos() {
                   <>
                     <button
                       onClick={() => iniciarEdicion(producto)}
-                      className="text-blue-600 hover:underline"
+                      className="text-gray-800 hover:underline"
                     >
                       Editar
                     </button>

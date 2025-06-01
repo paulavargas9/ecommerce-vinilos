@@ -9,8 +9,9 @@ import { Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
 import { useSearch } from "../context/SearchContext";
-import { useProducts } from "../hooks/useProducts"; // para acceder a los productos
-import { useNavigate } from "react-router-dom";     // para redirigir
+import { useProducts } from "../hooks/useProducts";
+import { useNavigate } from "react-router-dom"; 
+
 
 
 const NavBar = () => {
@@ -20,8 +21,9 @@ const NavBar = () => {
   const { user, logout, isAuthenticated } = useAuth();
   const { favoritos } = useFavoritos();
   const { query, setQuery } = useSearch();
-  const { products } = useProducts();  // lista de productos
-  const navigate = useNavigate();     // función para redireccionar
+  const { products } = useProducts();  
+  const navigate = useNavigate();   
+
 
 
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
@@ -30,13 +32,13 @@ const NavBar = () => {
     <>
       <nav className="relative z-50">
         <div className="container flex justify-between items-center py-8">
-          {/* Logo */}
+          
           <div className="text-2xl flex items-center gap-2 font-bold uppercase">
             <img src="../img/logo.webp" alt="Logo" className="h-10 w-auto" />
             <span className="text-2xl font-bold">LAMEDISCOS</span>
           </div>
 
-          {/* Menu */}
+          
           <div className="hidden md:block">
             <ul className="flex items-center gap-6 text-gray-600">
               {navbarLinks.map((item) => (
@@ -52,9 +54,8 @@ const NavBar = () => {
             </ul>
           </div>
 
-          {/* Icons */}
+         
           <div className="flex items-center gap-4">
-            {/* Desktop search input */}
             <input
               type="text"
               placeholder="Buscar discos..."
