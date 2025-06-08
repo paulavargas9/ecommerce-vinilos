@@ -6,10 +6,10 @@ export default function OrderConfirmation() {
 
   const orderNumber = Math.floor(Math.random() * 1000000);
 
-  // Si se entra directamente, redirigir después de X seg.
+
   useEffect(() => {
     const timer = setTimeout(() => {
-      // Podrías redirigir o mostrar algo más
+    
     }, 8000);
     return () => clearTimeout(timer);
   }, []);

@@ -9,7 +9,7 @@ export default function AdminProductos() {
   useEffect(() => {
     const token = localStorage.getItem("token");
 
-    fetch("http://localhost:8082/api/productos", {
+    fetch("http://localhost:8080/api/productos", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -42,7 +42,7 @@ export default function AdminProductos() {
     };
   
     try {
-      const res = await fetch("http://localhost:8082/api/productos", {
+      const res = await fetch("http://localhost:8080/api/productos", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -54,8 +54,8 @@ export default function AdminProductos() {
       if (!res.ok) throw new Error("Error al crear producto");
   
       const creado = await res.json();
-      setProductos((prev) => [...prev, creado]); // agregarlo a la lista
-      setShowForm(false); // ocultar formulario
+      setProductos((prev) => [...prev, creado]); 
+      setShowForm(false); 
     } catch (err) {
       alert("Error creando producto");
       console.error(err);

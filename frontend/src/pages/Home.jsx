@@ -1,6 +1,6 @@
 import Hero from "../components/Hero";
 import Items from "../components/ItemsHome";
-import Types from "../components/Types";
+
 import Services from "../components/Service";
 import { useSearch } from "../context/SearchContext";
 import { useProducts } from "../hooks/useProducts";
@@ -12,9 +12,9 @@ export default function Home() {
   const { products, loading, error } = useProducts();
 
   useEffect(() => {
-    console.log("✅ Productos en Home:", products);
-    console.log("🔍 Query:", query);
-    console.log("📦 Filtrados:", products.filter((p) =>
+    console.log(" Productos en Home:", products);
+    console.log(" Query:", query);
+    console.log(" Filtrados:", products.filter((p) =>
       p.nombre.toLowerCase().includes(query.toLowerCase())
     ));
   }, [products, query]);
@@ -24,12 +24,11 @@ export default function Home() {
   );
 
   return (
-    <div className="p-10">
+    <div className="p-10 ">
       {query.trim() === "" ? (
         <>
           <Hero />
-          <Items />
-          <Types />
+          <Items />      
           <Services />
         </>
       ) : loading ? (

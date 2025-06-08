@@ -20,8 +20,7 @@ public class ProductoMapper {
     }
 
     
-    public ProductoResponseDTO toDto(Producto producto) {
-        ProductoResponseDTO dto = new ProductoResponseDTO();
+    public ProductoResponseDTO toDto(Producto producto) { ProductoResponseDTO dto = new ProductoResponseDTO();
         dto.setId(producto.getId());
         dto.setNombre(producto.getNombre());
         dto.setDescripcion(producto.getDescripcion());
@@ -30,10 +29,12 @@ public class ProductoMapper {
         dto.setCategoriaId(producto.getCategoria().getId());
         dto.setSlug(producto.getSlug());
         dto.setSlug(producto.getSlug());
+        dto.setImg(producto.getImg());
 
 
 
-        // 👇 Añade el nombre de la categoría
+
+      
         dto.setCategoriaNombre(producto.getCategoria().getNombre());
         dto.setCategoriaSlug(producto.getCategoria().getSlug());
 
@@ -48,14 +49,12 @@ public class ProductoMapper {
         producto.setPrecio(dto.getPrecio());
         producto.setStock(dto.getStock());
     
-        // Generar slug a partir del nombre
         String slug = dto.getNombre()
             .toLowerCase()
             .replace(" ", "-")
             .replaceAll("[^a-z0-9\\-]", "");
         producto.setSlug(slug);
-    
-        // Asignar la categoría si se recibe
+
         if (dto.getCategoriaId() != null) {
             Categoria categoria = new Categoria();
             categoria.setId(dto.getCategoriaId());

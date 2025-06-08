@@ -27,7 +27,7 @@ export default function Register() {
     };
 
     try {
-      const res = await fetch("http://localhost:8082/api/auth/register", {
+      const res = await fetch("http://localhost:8080/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
@@ -39,7 +39,7 @@ export default function Register() {
         return;
       }
 
-      // Redirigir al login tras éxito
+    
       navigate("/login", { state: { registered: true } });
     } catch (err) {
       setError("Error de red o del servidor.");
@@ -84,7 +84,7 @@ export default function Register() {
 
         <button
           type="submit"
-          className="w-full bg-black text-white py-2 rounded hover:opacity-90"
+          className="w-full bg-primary text-white py-2 rounded hover:opacity-90"
         >
           Registrarse
         </button>

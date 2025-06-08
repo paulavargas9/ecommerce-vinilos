@@ -67,7 +67,7 @@ export default function Checkout() {
     };
 
     try {
-      const res = await fetch("http://localhost:8082/api/pedidos/checkout", {
+      const res = await fetch("http://localhost:8080/api/pedidos/checkout", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -98,7 +98,7 @@ export default function Checkout() {
     const stripe = await stripePromise;
     const totalEnCentimos = Math.round((cartTotal + shippingCost) * 100);
 
-    const response = await fetch("http://localhost:8082/api/stripe/create-checkout-session", {
+    const response = await fetch("http://localhost:8080/api/stripe/create-checkout-session", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ amount: totalEnCentimos }),
@@ -131,7 +131,7 @@ export default function Checkout() {
   return (
     <div className="p-6 md:p-10 grid md:grid-cols-3 gap-12">
       <form onSubmit={handleSubmit} className="md:col-span-2 space-y-8">
-        <h1 className="text-3xl font-bold">Checkout</h1>
+        <h1 className="text-3xl font-bold">Proceso de compra</h1>
 
         <div>
           <h2 className="text-lg font-semibold mb-4">Información</h2>

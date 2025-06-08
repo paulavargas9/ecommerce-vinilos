@@ -25,7 +25,7 @@ export const navbarLinks = [
 {
     id:4,
     title:"Sobre nosotros",
-    link:"#"
+    link:"/about"
 
 }
 

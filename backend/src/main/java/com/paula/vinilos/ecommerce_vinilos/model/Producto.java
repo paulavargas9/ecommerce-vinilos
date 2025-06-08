@@ -38,6 +38,10 @@ public class Producto implements Serializable {
     @Column(unique = true)
     private String slug;
 
+    @NotBlank(message = "La imagen no puede estar vacía")
+    private String img;
+
+
     public String getSlug() { return slug; }
     public void setSlug(String slug) { this.slug = slug; }
 
@@ -46,7 +50,11 @@ public class Producto implements Serializable {
     public Producto(Long id) {
         this.id = id;
     }
-    // Getters y Setters
+
+
+    public String getImg() { return img; }
+    public void setImg(String img) { this.img = img; }
+    
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 

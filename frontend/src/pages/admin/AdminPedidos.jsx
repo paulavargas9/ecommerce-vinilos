@@ -11,7 +11,7 @@ export default function AdminPedidos() {
   useEffect(() => {
     if (!token) return;
 
-    fetch("http://localhost:8082/api/pedidos", {
+    fetch("http://localhost:8080/api/pedidos", {
       headers: {
         Authorization: `Bearer ${token}`,
       },

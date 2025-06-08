@@ -23,10 +23,13 @@ const NavBar = () => {
   const { query, setQuery } = useSearch();
   const { products } = useProducts();  
   const navigate = useNavigate();   
-
-
-
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const { clearCart } = useCart();
+  const { clearFavoritos } = useFavoritos();
+
+const toggleMenu = () => setMenuOpen(!menuOpen);
+const closeMenu = () => setMenuOpen(false);
 
   return (
     <>
@@ -68,15 +71,13 @@ const NavBar = () => {
                   );
                   if (encontrado) {
                     navigate(`/producto/${encontrado.slug}`);
-                    setQuery(""); // limpiar el campo después de navegar (opcional)
+                    setQuery(""); 
                   }
                 }
               }}
               className="hidden md:block border px-3 py-1 rounded-md text-sm w-40 md:w-64"
             />
 
-
-            {/* Mobile search icon */}
             <button
               className="block md:hidden text-2xl hover:bg-primary hover:text-white rounded-full p-2 duration-200"
               onClick={() => setShowSearch(true)}
@@ -84,7 +85,7 @@ const NavBar = () => {
               <CiSearch />
             </button>
 
-            {/* Carrito */}
+            
             <Link to="/carrito" className="relative">
               <button className="text-2xl hover:bg-primary hover:text-white rounded-full p-2 duration-200">
                 <PiShoppingCartSimpleThin />
@@ -96,7 +97,7 @@ const NavBar = () => {
               )}
             </Link>
 
-            {/* Favoritos */}
+            
             <Link to="/favoritos" className="relative">
               <button className="text-2xl hover:bg-primary hover:text-white rounded-full p-2 duration-200">
                 <CiHeart />
@@ -108,16 +109,52 @@ const NavBar = () => {
               )}
             </Link>
 
-            {/* Auth */}
+            
             {isAuthenticated ? (
-              <div className="hidden md:flex items-center gap-3">
-                <span className="text-sm font-medium text-gray-700">{user?.name}</span>
+              <div className="hidden md:flex items-center gap-4 relative">
                 <button
-                  onClick={logout}
-                  className="text-sm text-red-600 hover:underline"
+                  onClick={toggleMenu}
+                  className="text-sm font-medium text-gray-700 hover:underline"
                 >
-                  Cerrar sesión
+                  {user?.name}
                 </button>
+
+                {menuOpen && (
+                  <div className="absolute top-8 right-0 bg-white border rounded shadow-md p-2 min-w-max z-50">
+                    {user?.rol === "ADMIN" && (
+                      <Link
+                        to="/admin/dashboard"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        onClick={closeMenu}
+                      >
+                        Panel de Administración
+                      </Link>
+                    )}
+
+                  <Link
+                        to="/perfil"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        onClick={closeMenu}
+                      >
+                        Mi perfil
+                      </Link>
+                    <button
+                    onClick={() => {
+                      clearCart(); 
+                      clearFavoritos();
+                      localStorage.removeItem("token");
+                      localStorage.removeItem("user");
+                      window.location.href = "/"; 
+
+                    }}
+                    className="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 w-full text-left"
+                  >
+                    Cerrar sesión
+                  </button>
+
+
+                  </div>
+                )}
               </div>
             ) : (
               <Link
@@ -129,14 +166,14 @@ const NavBar = () => {
             )}
           </div>
 
-          {/* Mobile menu icon */}
+   
           <div className="md:hidden">
             <MdMenu onClick={() => setOpen(!open)} className="text-4xl" />
           </div>
         </div>
       </nav>
 
-      {/* Search overlay for mobile */}
+ 
       {showSearch && (
         <div className="fixed top-0 left-0 right-0 bg-white p-4 z-50 shadow-md border-b">
           <div className="flex gap-2 items-center">
@@ -158,7 +195,7 @@ const NavBar = () => {
         </div>
       )}
 
-      {/* Mobile menu */}
+     
       <ResponsiveMenu open={open} navbarLinks={navbarLinks} />
     </>
   );

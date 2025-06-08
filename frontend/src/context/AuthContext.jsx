@@ -2,8 +2,6 @@ import { createContext, useContext, useEffect, useState } from "react";
 
 const AuthContext = createContext();
 
-
-
 export function useAuth() {
   return useContext(AuthContext);
 }
@@ -32,7 +30,9 @@ export function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, isAuthenticated, setUser, setToken, logout }}>
+    <AuthContext.Provider
+      value={{ user, token, isAuthenticated, setUser, setToken, logout }}
+    >
       {children}
     </AuthContext.Provider>
   );

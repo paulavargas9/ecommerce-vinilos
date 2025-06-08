@@ -21,9 +21,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado con email: " + email));
 
         return new User(
-                usuario.getEmail(),           // username
-                usuario.getPassword(),        // password
-                Collections.emptyList()       // roles (vacío por ahora)
+                usuario.getEmail(),           
+                usuario.getPassword(),        
+                Collections.emptyList()       
         );
     }
 }

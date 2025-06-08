@@ -25,6 +25,9 @@ import AdminProductos from "./pages/admin/AdminProductos";
 import AdminUsuarios from "./pages/admin/AdminUsuarios";
 import AdminPedidos from "./pages/admin/AdminPedidos";
 import PedidoDetalle from "./pages/admin/PedidoDetalle";
+import Tendencias from "./pages/Tendencias";
+import NuevasJoyas from "./pages/NuevasJoyas";
+
 
 
 
@@ -57,6 +60,8 @@ export default function App() {
       <Route path="/carrito" element={<Cart />} />
         <Route path="/" element={<Home />} />
         <Route path="/shop" element={<Shop />} />
+        <Route path="/tendencias" element={<Tendencias />} />
+        <Route path="/joyas" element={<NuevasJoyas />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/about" element={<About />} />
         <Route path="*" element={<NotFound />} />

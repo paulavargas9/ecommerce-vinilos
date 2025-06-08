@@ -1,9 +1,7 @@
 import React ,{ useEffect } from "react"
-import cat1 from "../assets/macMiller.jpg"
-import cat2 from "../assets/macMiller.jpg"
-import cat3 from "../assets/macMiller.jpg"
-import cat4 from "../assets/macMiller.jpg"
-import cat5 from "../assets/macMiller.jpg"
+import cat1 from "../assets/hiphop.webp"
+import cat2 from "../assets/salsa.webp"
+import cat3 from "../assets/vinilo.webp"
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { Link } from "react-router-dom";
@@ -43,35 +41,34 @@ const Items =() => {
             <div className="lg:w-[85%] w-full grid lg:grid-cols-3 grid-cols-1 justify-center items-start gap-10">
                 <div data-aos="zoom-in" data-aos-delay="50" className="flex flex-col justify-center 
                 items-center gap-6">
-                    <img src={cat1} alt="vinilo"  className="rounded-full cursor-pointer"/>
+                    <img src={cat1} alt="vinilo"  className="rounded-full cursor-pointer w-62 h-62 object-cover"/>
                     <Link
-                    to="/producto/mac-miller"
-                    className="text-black text-xl font-semibold hover:text-primary cursor-pointer"
+                    to="/shop/hiphop-rap"
+                    className="text-black text-xl font-semibold hover:text-primary cursor-pointer text-center"
                     >
-                    Mac Miller Vinilo Edición especial
+                    Hip-Hop / Rap
                     </Link>
                 </div>
                 <div data-aos="zoom-in" data-aos-delay="50" className="flex flex-col justify-center 
                 items-center gap-6">
-                    <img src={cat2} alt="vinilo"  className="rounded-full cursor-pointer"/>
+                    <img src={cat2} alt="vinilo"  className="rounded-full cursor-pointerw-62 h-62 object-cover"/>
                     <Link
-                    to="/producto/mac-miller"
-                    className="text-black text-xl font-semibold hover:text-primary cursor-pointer"
+                    to="/shop/salsa"
+                    className="text-black text-xl font-semibold hover:text-primary cursor-pointer text-center"
                     >
-                    Mac Miller Vinilo Edición especial
+                    Salsa y Ritmos Latinos
                     </Link>
                 </div>
                 <div data-aos="zoom-in" data-aos-delay="50" className="flex flex-col justify-center 
                 items-center gap-6">
-                    <img src={cat3} alt="vinilo"  className="rounded-full cursor-pointer"/>
+                    <img src={cat3} alt="vinilo"  className="rounded-full cursor-pointer w-62 h-62 object-cover"/>
                     <Link
-                        to="/producto/mac-miller"
-                        className="text-black text-xl font-semibold hover:text-primary cursor-pointer"
-                        >
-                        Mac Miller Vinilo Edición especial
-                        </Link>
+                    to="/shop/electronica"
+                    className="text-black text-xl font-semibold hover:text-primary cursor-pointer text-center"
+                    >
+                    Electrónica & Alternativo
+                    </Link>
                   </div>
-
 
              </div>
      </div> 

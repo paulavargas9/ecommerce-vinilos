@@ -10,7 +10,9 @@ public class ProductoResponseDTO {
     private Long categoriaId;
     private String categoriaNombre;
     private String categoriaSlug;
-    private String slug; // este es el slug del producto
+    private String slug; 
+    private String img;
+
 
         public String getSlug() { return slug; }
     public void setSlug(String slug) { this.slug = slug; }
@@ -23,9 +25,14 @@ public class ProductoResponseDTO {
     public void setCategoriaNombre(String categoriaNombre) {
         this.categoriaNombre = categoriaNombre;
         }
-            
-
-    
+        public String getImg() {
+            return img;
+        }
+        
+        public void setImg(String img) {
+            this.img = img;
+        }
+        
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 

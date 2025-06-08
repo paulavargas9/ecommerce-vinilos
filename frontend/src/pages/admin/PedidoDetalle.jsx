@@ -3,7 +3,7 @@ import { useAuth } from "../../context/AuthContext";
 import { useEffect, useState } from "react";
 
 export default function PedidoDetalle() {
-  const { id } = useParams(); // pedidoId desde la URL
+  const { id } = useParams(); 
   const { token } = useAuth();
 
   const [detalles, setDetalles] = useState([]);

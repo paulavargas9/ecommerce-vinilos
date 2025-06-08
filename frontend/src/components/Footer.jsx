@@ -6,7 +6,7 @@ const Footer = () => {
     return (
       <footer className='bg-gray-100  text-black py-8 px-4 md:px-16 lg:px-24'>
         <div className='container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8'>
-          {/* Columna 1 */}
+          
           <div className='flex flex-col items-start gap-4'>
             <h3 className='text-xl font-semibold '>LameDiscos</h3>
             <p className='mt-4'>
@@ -15,7 +15,7 @@ const Footer = () => {
             </p>
           </div>
   
-          {/* Columna 2 */}
+          
           <div className='flex flex-col md:items-center'>
             <h4 className='text-lg font-semibold'>Explora la tienda</h4>
             <ul className='mt-4 space-y-2'>
@@ -26,7 +26,7 @@ const Footer = () => {
             </ul>
           </div>
   
-          {/* Columna 3 */}
+         
           <div className='flex flex-col items-center md:items-start'>
           <h4 className='text-lg font-semibold'>Redes Sociales</h4>
             <div className='flex space-x-4 mt-4'>
@@ -54,7 +54,7 @@ const Footer = () => {
           </div>
         </div>
             
-        {/* Footer final */}
+        
         <div className='mt-8 border-t border-gray-700 pt-4'>
           <div className='container mx-auto flex flex-col md:flex-row justify-between items-center'>
           <p>&copy; {new Date().getFullYear()} LameDiscos. Todos los derechos reservados.</p>

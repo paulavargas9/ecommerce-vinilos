@@ -6,7 +6,7 @@ import { useProducts } from "../hooks/useProducts";
 import { useSearch } from "../context/SearchContext";
 
 export default function Category() {
-  const { categoria } = useParams(); // ej. 'jazz'
+  const { categoria } = useParams(); 
   const { products, loading, error } = useProducts();
   const { query } = useSearch();
 
@@ -27,9 +27,7 @@ export default function Category() {
     return coincideCategoria && coincideBusqueda;
   });
   
-  
-  //const productosFiltrados = products.filter(
-   // (p) => p.categoriaSlug?.toLowerCase().trim() === categoria.toLowerCase().trim() );
+
   
   return (
     <div className="p-10">
@@ -49,10 +47,10 @@ export default function Category() {
                 to={`/producto/${producto.slug}`}
                 className="block bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition duration-300"
               >
-                <img
-                  src="/assets/default.jpg" // Puedes cambiar esto según tu lógica
+               <img
+                  src={producto.img || "/assets/default.jpg"}
                   alt={producto.nombre}
-                  className="w-full h-56 object-cover"
+                  className="w-full h-64 object-contain bg-white"
                 />
                 <div className="p-4">
                   <h2 className="text-lg font-semibold mb-2">{producto.nombre}</h2>
