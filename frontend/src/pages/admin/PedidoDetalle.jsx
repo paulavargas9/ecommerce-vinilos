@@ -12,7 +12,7 @@ export default function PedidoDetalle() {
   useEffect(() => {
     if (!token) return;
 
-    fetch(`http://localhost:8082/api/detalle-pedidos/pedido/${id}`, {
+    fetch(`http://localhost:8080/api/detalle-pedidos/pedido/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

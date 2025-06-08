@@ -13,7 +13,7 @@ export default function Perfil() {
       const token = localStorage.getItem("token");
 
       try {
-        const res = await fetch("http://localhost:8082/api/pedidos/mis-pedidos", {
+        const res = await fetch("http://localhost:8080/api/pedidos/mis-pedidos", {
           headers: {
             Authorization: `Bearer ${token}`,
           },

@@ -26,6 +26,7 @@ export default function AdminProductos() {
   }, []);
 
   if (loading) return <p>Cargando productos...</p>;
+  // Maneja la creación de un nuevo recurso (como un producto o pedido).
 
   const handleCreate = async (e) => {
     e.preventDefault();
@@ -115,11 +116,6 @@ export default function AdminProductos() {
             </button>
         </form>
         )}
-
-
-
-
-
     </div>
 
     

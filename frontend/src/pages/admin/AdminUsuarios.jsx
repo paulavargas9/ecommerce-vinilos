@@ -7,7 +7,7 @@ export default function AdminUsuarios() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:8082/api/usuarios", {
+    fetch("http://localhost:8080/api/usuarios", {
       headers: {
         Authorization: `Bearer ${token}`,
       },

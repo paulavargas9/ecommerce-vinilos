@@ -10,7 +10,7 @@ export default function AdminProductos() {
   });
 
   const fetchProductos = async () => {
-    const res = await fetch("http://localhost:8082/api/productos");
+    const res = await fetch("http://localhost:8080/api/productos");
     const data = await res.json();
     setProductos(data.data);
   };
@@ -22,7 +22,7 @@ export default function AdminProductos() {
   const eliminarProducto = async (id) => {
     if (!window.confirm("¿Seguro que deseas eliminar este producto?")) return;
 
-    await fetch(`http://localhost:8082/api/productos/${id}`, {
+    await fetch(`http://localhost:8080/api/productos/${id}`, {
       method: "DELETE",
     });
 
@@ -39,7 +39,7 @@ export default function AdminProductos() {
   };
 
   const guardarCambios = async () => {
-    await fetch(`http://localhost:8082/api/productos/${editando}`, {
+    await fetch(`http://localhost:8080/api/productos/${editando}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(form),
