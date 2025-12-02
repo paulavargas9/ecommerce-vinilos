@@ -59,29 +59,28 @@ export default function Shop() {
       ) : productosFiltrados.length === 0 ? (
         <p>No hay resultados para tu búsqueda.</p>
       ) : (
-     
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {productosFiltrados.map((producto) => (
-            <Link
-              to={`/producto/${producto.slug}`}
-              key={producto.id}
-              className="block bg-white rounded-lg shadow hover:shadow-lg transition"
-              data-aos="fade-up"
-            >
-              <img
-                src="/assets/default.jpg"
-                alt={producto.nombre}
-                className="w-full h-56 object-cover"
-              />
-              <div className="p-4">
-                <h2 className="text-lg font-semibold mb-2">{producto.nombre}</h2>
-                <p className="text-primary font-bold text-xl">
-                  {producto.precio.toFixed(2)} €
-                </p>
-              </div>
-            </Link>
-          ))}
+  {productosFiltrados.map((producto) => (
+    <div key={producto.id} data-aos="fade-up">
+      <Link
+        to={`/producto/${producto.slug}`}
+        className="block bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition duration-300"
+      >
+        <img
+          src={producto.img || "/assets/default.jpg"}
+          alt={producto.nombre}
+          className="w-full h-64 object-contain bg-white"
+        />
+        <div className="p-4">
+          <h2 className="text-lg font-semibold mb-2">{producto.nombre}</h2>
+          <p className="text-primary font-bold text-xl">
+            {producto.precio.toFixed(2)} €
+          </p>
         </div>
+      </Link>
+    </div>
+  ))}
+</div>
       )}
     </div>
   );

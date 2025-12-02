@@ -6,7 +6,7 @@ export default function NuevasJoyas() {
   const { products, loading } = useProducts();
 
 
-  const joyasIds = [24, 49, 33, 40, 44, 51]; 
+  const joyasIds = [24, 49, 48, 40, 44, 51]; 
 
   const joyas = products.filter((p) => joyasIds.includes(p.id));
 

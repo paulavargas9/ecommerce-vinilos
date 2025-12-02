@@ -8,7 +8,7 @@ export default function Tendencias() {
   if (loading) return <div className="p-10">Cargando tendencias...</div>;
 
 
-  const tendenciaIds = [2, 6, 8, 14, 25, 31]; 
+  const tendenciaIds = [2, 6, 8, 14, 25, 9]; 
   const productosTendencia = products.filter((p) => tendenciaIds.includes(p.id));
 
   return (

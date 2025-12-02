@@ -62,7 +62,7 @@ export default function Checkout() {
       items: cart.map((item) => ({
         productoId: item.id,
         cantidad: item.quantity,
-        precio: item.precio,
+        precio: item.precio * item.quantity,
       })),
     };
 

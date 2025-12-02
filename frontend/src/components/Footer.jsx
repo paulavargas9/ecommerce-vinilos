@@ -5,12 +5,11 @@ import { Link } from 'react-router-dom'
 const Footer = () => {
     return (
       <footer className='bg-gray-100  text-black py-8 px-4 md:px-16 lg:px-24'>
-        <div className='container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8'>
-          
-          <div className='flex flex-col items-start gap-4'>
+        <div className='container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8'> 
+          <div className='flex flex-col items-start gap-4 translate-x-[-20px]'>
             <h3 className='text-xl font-semibold '>LameDiscos</h3>
-            <p className='mt-4'>
-            Descubre joyas musicales en vinilo. Ediciones especiales,<br />
+            <p className='mt-0'>
+            Descubre joyas musicales en vinilo. Ediciones especiales,
             clásicos imprescindibles y lanzamientos exclusivos para tu colección.
             </p>
           </div>
