@@ -13,14 +13,18 @@ El proyecto está dividido en dos módulos principales:
 - [Descripción general](#descripción-general)
 - [Arquitectura](#arquitectura)
 - [Tecnologías](#tecnologías)
+  - [Frontend](#frontend-1)
+  - [Backend](#backend-1)
+  - [Otras herramientas](#otras-herramientas)
 - [Requisitos previos](#requisitos-previos)
 - [Estructura del proyecto](#estructura-del-proyecto)
 - [Puesta en marcha](#puesta-en-marcha)
   - [Clonado del repositorio](#clonado-del-repositorio)
-  - [Backend](#backend)
-  - [Frontend](#frontend)
+  - [Backend](#backend-2)
+  - [Frontend](#frontend-2)
 - [Ejecución de tests](#ejecución-de-tests)
 - [Buenas prácticas y convenciones](#buenas-prácticas-y-convenciones)
+- [Backlog](#backlog)
 - [Autoría](#autoría)
 - [Licencia](#licencia)
 
@@ -104,5 +108,5 @@ ecommerce-vinilos/
 │   ├── src/
 │   ├── package.json
 │   └── ...
-├── README.md
-└── .gitignore
+├── README.md             # Documentación principal del proyecto
+└── .gitignore            # Archivos y carpetas excluidos del control de versiones
