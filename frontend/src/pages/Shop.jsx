@@ -34,8 +34,8 @@ export default function Shop() {
   const mostrarGeneros = query.trim() === "";
 
   return (
-    <div className="p-10">
-      <h1 className="text-3xl font-bold text-center mb-8">
+    <section className="px-4 py-8 sm:px-6 md:px-10 max-w-6xl mx-auto">
+      <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-6 sm:mb-8 ">
         {mostrarGeneros ? "Explora por Géneros" : "Resultados de búsqueda"}
       </h1>
 
@@ -45,7 +45,7 @@ export default function Shop() {
         <p className="text-red-600">Error: {error}</p>
       ) : mostrarGeneros ? (
       
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
           {genres.map((genre) => (
             <Link
               key={genre.slug}
@@ -59,17 +59,17 @@ export default function Shop() {
       ) : productosFiltrados.length === 0 ? (
         <p>No hay resultados para tu búsqueda.</p>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
   {productosFiltrados.map((producto) => (
     <div key={producto.id} data-aos="fade-up">
       <Link
         to={`/producto/${producto.slug}`}
-        className="block bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition duration-300"
+        className="flex flex-col h-full bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition duration-300"
       >
         <img
           src={producto.img || "/assets/default.jpg"}
           alt={producto.nombre}
-          className="w-full h-64 object-contain bg-white"
+          className="w-full h-52 sm:h-60 md:h-64 object-contain bg-white"
         />
         <div className="p-4">
           <h2 className="text-lg font-semibold mb-2">{producto.nombre}</h2>
@@ -82,6 +82,6 @@ export default function Shop() {
   ))}
 </div>
       )}
-    </div>
+    </section>
   );
 }
